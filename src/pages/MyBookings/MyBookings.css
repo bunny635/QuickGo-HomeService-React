@@ -1,0 +1,135 @@
+.my-bookings-container {
+  background-color: var(--primary-black);
+  min-height: 100vh;
+}
+
+/* Controls Styling */
+.booking-controls {
+  display: flex;
+  gap: 15px;
+}
+
+.search-box, .filter-box {
+  background: var(--secondary-black);
+  border: 1px solid #333;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  flex: 1;
+}
+
+.search-box input, .filter-box select {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  outline: none;
+  font-size: 14px;
+}
+
+.booking-controls .icon {
+  color: var(--gold-accent);
+}
+
+/* Booking Card Styling */
+.booking-card {
+  background: var(--secondary-black);
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid #222;
+  transition: 0.3s;
+}
+
+.booking-card:hover {
+  border-color: var(--gold-accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.id-tag {
+  background: #000;
+  color: #888;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: monospace;
+  margin-right: 15px;
+}
+
+/* Status Badges */
+.status-badge {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+
+.status-badge.pending { background: rgba(197, 160, 89, 0.2); color: var(--gold-accent); }
+.status-badge.completed { background: rgba(40, 167, 69, 0.2); color: #28a745; }
+.status-badge.cancelled { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
+
+/* Body Content */
+.info-label {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.info-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ccc;
+  margin: 0;
+}
+
+.text-gold { color: var(--gold-accent); }
+
+/* Buttons */
+.booking-card-footer {
+  display: flex;
+  gap: 12px;
+  border-top: 1px solid #222;
+  padding-top: 20px;
+}
+
+.btn-action-view, .btn-action-cancel {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action-view {
+  background: transparent;
+  border: 1px solid #444;
+  color: white;
+}
+
+.btn-action-view:hover {
+  border-color: var(--gold-accent);
+  color: var(--gold-accent);
+}
+
+.btn-action-cancel {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: #dc3545;
+}
+
+.btn-action-cancel:hover {
+  background: #dc3545;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .booking-controls { flex-direction: column; }
+}

@@ -1,0 +1,120 @@
+.profile-container {
+  background-color: var(--primary-black);
+  min-height: 100vh;
+}
+
+.profile-card {
+  background: var(--secondary-black);
+  border-radius: 20px;
+  padding: 35px;
+  border: 1px solid #222;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Sidebar Image Styling */
+.profile-img-wrapper {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto;
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold-accent);
+}
+
+.edit-overlay {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: var(--gold-accent);
+  color: var(--primary-black);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Stat Box Styles */
+.stat-box {
+  background: #000;
+  padding: 10px 5px;
+  border-radius: 12px;
+  border: 1px solid #222;
+}
+
+.stat-icon { color: var(--gold-accent); font-size: 18px; margin-bottom: 5px; }
+.stat-box h6 { color: white; margin: 0; font-weight: 700; }
+.stat-box span { font-size: 10px; color: #666; text-transform: uppercase; }
+
+/* Details Card Styling */
+.profile-label {
+  color: #666;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.profile-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #ccc;
+  padding: 10px 15px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.profile-input.editable {
+  background: #000;
+  border-color: #333;
+  color: white;
+}
+
+.profile-input.editable:focus {
+  border-color: var(--gold-accent);
+}
+
+/* Toggle Buttons */
+.btn-edit-toggle, .btn-save-toggle {
+  background: transparent;
+  border: 1px solid var(--gold-accent);
+  color: var(--gold-accent);
+  padding: 6px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-edit-toggle:hover {
+  background: var(--gold-accent);
+  color: var(--primary-black);
+}
+
+.btn-save-toggle {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.btn-link-gold {
+  color: var(--gold-accent);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 991px) {
+  .sidebar-card { margin-bottom: 20px; }
+}

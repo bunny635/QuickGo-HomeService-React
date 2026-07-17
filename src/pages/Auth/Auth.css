@@ -1,0 +1,124 @@
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1887') center/cover;
+  position: relative;
+  padding: 20px;
+}
+
+.auth-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1;
+}
+
+/* Modern Glass Card */
+.glass-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  background: rgba(22, 22, 22, 0.7);
+  backdrop-filter: blur(15px); /* This creates the glass effect */
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.auth-logo {
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-accent);
+}
+
+.auth-title {
+  color: white;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.auth-title span { color: var(--gold-accent); }
+
+.auth-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Custom Input Styling */
+.input-group-custom {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: var(--gold-accent);
+  font-size: 18px;
+}
+
+.auth-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  padding: 12px 15px 12px 45px;
+  border-radius: 10px;
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+.auth-input:focus {
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
+}
+
+/* Links and Checks */
+.forgot-link, .auth-link-gold {
+  color: var(--gold-accent);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.forgot-link:hover, .auth-link-gold:hover {
+  text-decoration: underline;
+}
+
+.custom-check:checked {
+  background-color: var(--gold-accent);
+  border-color: var(--gold-accent);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .glass-card { padding: 30px 20px; }
+}
+/*the register card height */
+
+.register-card {
+  max-width: 480px; /* Slightly wider than login */
+  max-height: 90vh; /* Prevents card from going off screen */
+  overflow-y: auto; /* Adds scroll inside card for small screens */
+}
+
+/* Custom scrollbar for the glass card */
+.register-card::-webkit-scrollbar {
+  width: 5px;
+}
+.register-card::-webkit-scrollbar-thumb {
+  background: var(--gold-accent);
+  border-radius: 10px;
+}
+
+/* Hide arrow buttons in number input (Phone field) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

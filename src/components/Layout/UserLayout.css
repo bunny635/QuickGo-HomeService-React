@@ -1,0 +1,11 @@
+.user-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the page takes full height */
+  background-color: var(--primary-black);
+}
+
+.content-area {
+  flex: 1; /* Pushes the footer to the bottom if content is short */
+  width: 100%;
+}

@@ -1,0 +1,28 @@
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.custom-search-input {
+  width: 100%;
+  background: var(--secondary-black);
+  border: 1px solid #333;
+  color: white;
+  padding: 12px 15px 12px 45px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.custom-search-input:focus {
+  border-color: var(--gold-accent);
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold-accent);
+  font-size: 18px;
+}

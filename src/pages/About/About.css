@@ -1,0 +1,95 @@
+/* About Page Specific Styles */
+.about-hero {
+  padding: 100px 0 60px;
+  background: linear-gradient(rgba(11, 11, 11, 0.8), rgba(11, 11, 11, 0.8)), 
+              url('/public//lobby.jpg') center/cover;
+  
+}
+
+.about-hero h1 span {
+  color: var(--gold-accent);
+}
+
+
+.shadow-gold {
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2);
+}
+
+/* Mission Vision Cards */
+.mv-card {
+  background: var(--primary-black);
+  padding: 40px;
+  border: 1px solid #333;
+  border-radius: 15px;
+  height: 100%;
+  transition: 0.3s;
+}
+
+.mv-card:hover {
+  border-color: var(--gold-accent);
+  
+}
+
+.mv-icon {
+  font-size: 40px;
+  color: var(--gold-accent);
+  margin-bottom: 20px;
+  
+}
+
+.text-muted{
+  color: white;
+}
+
+/* Trust Cards */
+.trust-card {
+  padding: 20px;
+}
+
+.trust-icon {
+  font-size: 35px;
+  color: var(--gold-accent);
+}
+
+/* Process Timeline */
+.process-timeline {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.process-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: var(--primary-black);
+  border-radius: 12px;
+}
+
+.step-num {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--gold-accent);
+  border-bottom: 2px solid var(--gold-accent);
+}
+
+/* Team Section */
+.team-card {
+  background: var(--secondary-black);
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid #222;
+}
+
+.team-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold-accent);
+}
+
+.text-gold {
+  color: var(--gold-accent);
+}

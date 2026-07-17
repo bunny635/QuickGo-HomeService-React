@@ -1,0 +1,48 @@
+/* src/App.css */
+:root {
+  --primary-black: #0B0B0B;
+  --secondary-black: #161616;
+  --gold-accent: #C5A059;
+  --gold-hover: lab(79.43% 2.65 37.38);
+  --text-white: #FFFFFF;
+  --text-muted: #A0A0A0;
+  
+  /* Setting the font variables */
+  --font-main: "Inter", sans-serif;
+  --font-luxury: "Playfair Display", serif;
+}
+
+body {
+  background-color: var(--primary-black);
+  color: var(--text-white);
+  font-family: var(--font-main); /* Application uses Inter */
+  margin: 0;
+}
+
+/* Use the Luxury Font for Headings */
+h1, h2, .section-title, .brand-text {
+  font-family: var(--font-luxury);
+  letter-spacing: 1px;
+}
+.btn-outline-gold {
+  background: transparent;
+  color: var(--gold-accent);
+  border: 2px solid var(--gold-accent);
+  padding: 10px 25px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-outline-gold:hover {
+  background: var(--gold-accent);
+  color: var(--primary-black); /* Turns text black on gold background */
+  transform: translateY(-3px); /* Subtle lift effect */
+  box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
+}
+
+/* Rest of your global styles... */

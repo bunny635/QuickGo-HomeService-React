@@ -1,0 +1,114 @@
+/* Home Page General Styles */
+.section-padding { padding: 80px 0; }
+.bg-black-light { background-color: var(--secondary-black); }
+
+/* Section Header */
+.section-title {
+  color: gold;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-title span { color: var(--gold-accent); }
+
+.gold-underline {
+  width: 80px;
+  height: 3px;
+  background-color: var(--gold-accent);
+  margin-top: 10px;
+}
+
+/* 1. Hero Section */
+.hero-section {
+  height: 85vh;
+  background: url('/public/bg.jpg') no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.4));
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.hero-title span { color: var(--gold-accent); }
+
+.hero-tagline {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+
+/* 2. Service Cards */
+.service-card {
+  background: var(--secondary-black);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #222;
+  transition: 0.4s;
+}
+
+.card-img { width: 100%; height: 200px; object-fit: cover; }
+
+.card-content { padding: 25px; }
+
+.card-content h4 { color: var(--gold-accent); font-weight: 600; }
+
+.card-content p { color: var(--text-muted); font-size: 14px; }
+
+.card-link {
+  background: none; border: none; color: var(--gold-accent);
+  font-weight: 600; padding: 0; margin-top: 10px;
+}
+
+/* 4. Feature Icons */
+.feature-icon {
+  font-size: 40px; color: var(--gold-accent);
+  margin-bottom: 15px;
+}
+
+/* 5. Statistics */
+.stat-number { color: var(--gold-accent); font-weight: 800; font-size: 3rem; }
+.stat-label { color: var(--text-white); font-weight: 500; text-transform: uppercase; }
+
+/* 6. Steps */
+.step-circle {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--gold-accent); color: var(--primary-black);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto; font-weight: 800; font-size: 20px;
+}
+
+/* 7. Reviews */
+.review-card {
+  background: var(--primary-black); padding: 30px;
+  border-radius: 12px; border: 1px solid #333;
+}
+
+.stars { color: var(--gold-accent); margin-bottom: 15px; }
+
+.review-text { font-style: italic; color: var(--text-muted); }
+
+.reviewer-avatar {
+  width: 45px; height: 45px; border-radius: 50%;
+  background: var(--gold-accent); color: var(--primary-black);
+  display: flex; align-items: center; justify-content: center; font-weight: 700;
+}
+
+/* 8. Newsletter */
+.newsletter-section { background: var(--secondary-black); border-radius: 20px; margin: 50px auto; max-width: 900px; }
+.newsletter-form { display: flex; max-width: 500px; gap: 10px; }
+.newsletter-input { flex: 1; padding: 12px 20px; border-radius: 8px; border: 1px solid #333; background: #000; color: white; }
+.newsletter-btn { background: var(--gold-accent); color: var(--primary-black); border: none; padding: 0 25px; border-radius: 8px; font-weight: 600; }
