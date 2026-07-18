@@ -1,0 +1,67 @@
+.payment-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 2000;
+}
+
+.payment-card {
+  background: #111;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid var(--gold-accent);
+}
+
+.payment-header {
+  background: #000;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #222;
+}
+
+.payment-logo { height: 40px; border-radius: 50%; border: 1px solid var(--gold-accent); }
+
+.amount-banner {
+  background: rgba(197, 160, 89, 0.1);
+  padding: 15px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.amount-banner h3 { color: var(--gold-accent); font-weight: 800; margin: 0; }
+
+.method-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #222;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.method-item:hover { border-color: var(--gold-accent); background: #1a1a1a; }
+.method-item .icon { font-size: 20px; color: var(--gold-accent); margin-right: 15px; }
+.method-item .arrow { margin-left: auto; color: #444; }
+
+.loader-icon { font-size: 50px; color: var(--gold-accent); }
+.success-icon { font-size: 60px; color: #28a745; }
+
+.btn-pay-confirm {
+    width: 100%;
+    background: var(--gold-accent);
+    color: black;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.close-x { background: none; border: none; color: #555; font-size: 24px; margin-left: auto; }

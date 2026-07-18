@@ -1,0 +1,36 @@
+.invoice-container {
+  background-color: var(--primary-black);
+  min-height: 100vh;
+}
+
+.invoice-box {
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  color: #333 !important; /* Ensure text is dark on white paper */
+}
+
+/* Print Specific Logic */
+@media print {
+  /* Hide Navbar, Footer and Print Buttons when printing */
+  nav, footer, .no-print, .btn {
+    display: none !important;
+  }
+
+  body {
+    background-color: white !important;
+  }
+
+  .invoice-container {
+    padding: 0 !important;
+    background-color: white !important;
+  }
+
+  .invoice-box {
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

@@ -14,6 +14,7 @@ import BookService from './pages/BookService/BookService';
 import MyBookings from './pages/MyBookings/MyBookings';
 import Profile from './pages/Profile/Profile';
 import Contact from './pages/Contact/Contact';
+import Invoice from './pages/Invoice/Invoice';
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const AppRoutes = () => {
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/invoice" element={<Invoice />} />
       </Route>
     </Routes>
   );

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { FiCalendar, FiClock, FiMapPin, FiEdit3, FiCheckCircle } from 'react-icons/fi';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
+import PaymentModal from '../../components/Payment/PaymentModal';
 
 const BookService = () => {
   const { id } = useParams(); // To get service ID from URL if redirected from details
@@ -197,5 +198,41 @@ const BookService = () => {
     </div>
   );
 };
+    return (
+  <div className="book-service-page py-5">
+    {/* ... your existing form code ... */}
+
+    {/* PLACE THE MODAL HERE */}
+    <PaymentModal 
+      isOpen={showPayment} 
+      onClose={() => setShowPayment(false)} 
+      amount={pricing.total} 
+      onPaymentSuccess={() => navigate('/invoice')} 
+    />
+  </div>
+);
+
+
+// Inside BookService.jsx
+const [showPayment, setShowPayment] = useState(false);
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if(!formData.date || !formData.address) return toast.error("Fill all fields");
+  
+  setShowPayment(true); // Open the fake Razorpay
+};
+
+return (
+  <>
+    {/* Your existing JSX */}
+    <PaymentModal 
+      isOpen={showPayment} 
+      onClose={() => setShowPayment(false)}
+      amount={pricing.total}
+      onPaymentSuccess={() => navigate('/invoice')} // Redirect to invoice after success
+    />
+  </>
+)
 
 export default BookService;
