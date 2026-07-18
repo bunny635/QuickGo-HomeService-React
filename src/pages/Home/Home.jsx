@@ -36,7 +36,7 @@ const Home = () => {
           <div className="row">
             {[
               { id: 1, title: "Home Cleaning", img: "/public/homecleaning.jpg", desc: "Eco-friendly deep cleaning for your interiors." },
-              { id: 2, title: "Garden Cleaning", img: "/public/GardenCleaning.jpgs", desc: "Expert landscape and garden maintenance." },
+              { id: 2, title: "Garden Cleaning", img: "/public/GardenCleaning.jpg", desc: "Expert landscape and garden maintenance." },
               { id: 3, title: "Electrician Service", img: "/public/elo.jpg", desc: "Certified professionals for safe repairs." }
             ].map((service) => (
               <div className="col-md-4 mb-4" key={service.id}>
