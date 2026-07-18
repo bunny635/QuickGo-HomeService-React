@@ -8,10 +8,13 @@ import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import PaymentModal from '../../components/Payment/PaymentModal';
 
 const BookService = () => {
-  const { id } = useParams(); // To get service ID from URL if redirected from details
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  // 1. Initial State for Form
+  // 1. Modal State
+  const [showPayment, setShowPayment] = useState(false);
+
+  // 2. Form State
   const [formData, setFormData] = useState({
     serviceType: id === "1" ? "Home Cleaning" : id === "2" ? "Garden Cleaning" : "Electrician",
     date: "",
@@ -20,24 +23,24 @@ const BookService = () => {
     notes: ""
   });
 
-  // 2. Price Logic (Simplified for Frontend)
-  const [basePrice, setBasePrice] = useState(250);
-  const tax = basePrice * 0.18; // 18% GST
-  const total = basePrice + tax;
+  // 3. Price Logic (Updated to Rupee Values)
+  const [basePrice, setBasePrice] = useState(15000);
+  const tax = basePrice * 0.18; 
+  const totalAmount = basePrice + tax;
 
-  // Update price when service changes
+  // Update price based on selected service
   useEffect(() => {
-    if (formData.serviceType === "Home Cleaning") setBasePrice(250);
-    else if (formData.serviceType === "Garden Cleaning") setBasePrice(150);
-    else setBasePrice(100);
+    if (formData.serviceType === "Home Cleaning") setBasePrice(15000);
+    else if (formData.serviceType === "Garden Cleaning") setBasePrice(8000);
+    else setBasePrice(500);
   }, [formData.serviceType]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 3. Form Validation & Submission
-  const handleSubmit = (e) => {
+  // 4. Handle "Proceed to Pay"
+  const handleProceedToPay = (e) => {
     e.preventDefault();
     const { date, time, address } = formData;
 
@@ -46,11 +49,8 @@ const BookService = () => {
       return;
     }
 
-    // Success Simulation
-    toast.success("Booking Confirmed! Check 'My Bookings'.");
-    setTimeout(() => {
-      navigate('/my-bookings');
-    }, 2000);
+    // Open the Fake Razorpay Modal
+    setShowPayment(true);
   };
 
   return (
@@ -72,10 +72,9 @@ const BookService = () => {
               animate={{ opacity: 1, x: 0 }}
               className="booking-form-card"
             >
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleProceedToPay}>
                 <h5 className="mb-4 text-gold border-bottom pb-2">Booking Details</h5>
                 
-                {/* Select Service */}
                 <div className="mb-4">
                   <label className="form-label-custom">Select Service</label>
                   <select 
@@ -91,7 +90,6 @@ const BookService = () => {
                 </div>
 
                 <div className="row mb-4">
-                  {/* Date Picker */}
                   <div className="col-md-6 mb-3 mb-md-0">
                     <label className="form-label-custom"><FiCalendar className="me-2"/>Preferred Date</label>
                     <input 
@@ -99,10 +97,9 @@ const BookService = () => {
                       name="date" 
                       className="booking-input" 
                       onChange={handleChange}
-                      min={new Date().toISOString().split("T")[0]} // Prevent past dates
+                      min={new Date().toISOString().split("T")[0]} 
                     />
                   </div>
-                  {/* Time Slot */}
                   <div className="col-md-6">
                     <label className="form-label-custom"><FiClock className="me-2"/>Preferred Time</label>
                     <select name="time" className="booking-input" onChange={handleChange}>
@@ -115,23 +112,17 @@ const BookService = () => {
                   </div>
                 </div>
 
-                {/* Address */}
-                <div className="pricing-details mt-4">
-  <div className="d-flex justify-content-between mb-2">
-    <span>Base Price</span>
-    <span>₹{pricing.base.toFixed(2)}</span>
-  </div>
-             <div className="d-flex justify-content-between mb-2">
-                <span>GST (18%)</span>
-                <span>₹{pricing.tax.toFixed(2)}</span>
-              </div>
-                  <div className="d-flex justify-content-between mt-3 total-row">
-                      <span className="fw-bold text-gold">Total Amount</span>
-                      <span className="fw-bold text-gold">₹{pricing.total.toFixed(2)}</span>
-                  </div>
+                <div className="mb-4">
+                  <label className="form-label-custom"><FiMapPin className="me-2"/>Service Address</label>
+                  <textarea 
+                    name="address" 
+                    className="booking-input" 
+                    rows="3" 
+                    placeholder="Enter full address..."
+                    onChange={handleChange}
+                  ></textarea>
                 </div>
 
-                {/* Special Notes */}
                 <div className="mb-4">
                   <label className="form-label-custom"><FiEdit3 className="me-2"/>Special Instructions (Optional)</label>
                   <textarea 
@@ -171,21 +162,21 @@ const BookService = () => {
               <div className="price-details mt-4">
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted">Base Price</span>
-                  <span>${basePrice.toFixed(2)}</span>
+                  <span className="text-white">₹{basePrice.toFixed(2)}</span>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
                   <span className="text-muted">GST (18%)</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span className="text-white">₹{tax.toFixed(2)}</span>
                 </div>
                 <hr className="bg-secondary"/>
                 <div className="d-flex justify-content-between total-row">
                   <span className="fw-bold text-gold">Total Amount</span>
-                  <span className="fw-bold text-gold">${total.toFixed(2)}</span>
+                  <span className="fw-bold text-gold">₹{totalAmount.toFixed(2)}</span>
                 </div>
               </div>
 
               <div className="mt-4">
-                <PrimaryButton text="Confirm & Pay" onClick={handleSubmit} />
+                <PrimaryButton text="Confirm & Pay" onClick={handleProceedToPay} />
               </div>
 
               <div className="booking-safety-badge mt-3">
@@ -195,44 +186,16 @@ const BookService = () => {
           </div>
         </div>
       </div>
+
+      {/* PAYMENT MODAL COMPONENT */}
+      <PaymentModal 
+        isOpen={showPayment} 
+        onClose={() => setShowPayment(false)}
+        amount={totalAmount}
+        onPaymentSuccess={() => navigate('/invoice')} 
+      />
     </div>
   );
 };
-    return (
-  <div className="book-service-page py-5">
-    {/* ... your existing form code ... */}
-
-    {/* PLACE THE MODAL HERE */}
-    <PaymentModal 
-      isOpen={showPayment} 
-      onClose={() => setShowPayment(false)} 
-      amount={pricing.total} 
-      onPaymentSuccess={() => navigate('/invoice')} 
-    />
-  </div>
-);
-
-
-// Inside BookService.jsx
-const [showPayment, setShowPayment] = useState(false);
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if(!formData.date || !formData.address) return toast.error("Fill all fields");
-  
-  setShowPayment(true); // Open the fake Razorpay
-};
-
-return (
-  <>
-    {/* Your existing JSX */}
-    <PaymentModal 
-      isOpen={showPayment} 
-      onClose={() => setShowPayment(false)}
-      amount={pricing.total}
-      onPaymentSuccess={() => navigate('/invoice')} // Redirect to invoice after success
-    />
-  </>
-)
 
 export default BookService;

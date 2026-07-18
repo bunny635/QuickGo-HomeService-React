@@ -5,32 +5,12 @@
 
 .invoice-box {
   border-radius: 10px;
-  font-family: 'Inter', sans-serif;
-  color: #333 !important; /* Ensure text is dark on white paper */
+  color: #333 !important;
 }
 
 /* Print Specific Logic */
 @media print {
-  /* Hide Navbar, Footer and Print Buttons when printing */
-  nav, footer, .no-print, .btn {
-    display: none !important;
-  }
-
-  body {
-    background-color: white !important;
-  }
-
-  .invoice-container {
-    padding: 0 !important;
-    background-color: white !important;
-  }
-
-  .invoice-box {
-    box-shadow: none !important;
-    border: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
+  nav, footer, .no-print, .btn { display: none !important; }
+  body, .invoice-container { background-color: white !important; padding: 0 !important; }
+  .invoice-box { box-shadow: none !important; border: none !important; }
 }

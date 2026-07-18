@@ -3,7 +3,6 @@ import './Invoice.css';
 import { FiPrinter, FiDownload } from 'react-icons/fi';
 
 const Invoice = () => {
-  // Simulate finding the last booking details
   const invoiceData = {
     billNo: "INV-" + Math.floor(Math.random() * 90000),
     date: new Date().toLocaleDateString(),
@@ -12,10 +11,6 @@ const Invoice = () => {
     amount: 15000,
     gst: 2700,
     total: 17700
-  };
-
-  const handlePrint = () => {
-    window.print(); // Native browser print command
   };
 
   return (
@@ -34,7 +29,7 @@ const Invoice = () => {
             <div className="col-6">
               <h6>Billed To:</h6>
               <p className="mb-0">{invoiceData.customer}</p>
-              <p className="small text-muted">Mumbai, India</p>
+              <p className="small text-muted">Surat, Gujarat</p>
             </div>
             <div className="col-6 text-end">
               <h6>Invoice Info:</h6>
@@ -77,8 +72,7 @@ const Invoice = () => {
         </div>
 
         <div className="text-center mt-4 no-print">
-          <button className="btn btn-outline-light me-3" onClick={handlePrint}><FiPrinter className="me-2"/> Print Bill</button>
-          <button className="btn btn-warning"><FiDownload className="me-2"/> Download PDF</button>
+          <button className="btn btn-outline-light me-3" onClick={() => window.print()}><FiPrinter className="me-2"/> Print Bill</button>
         </div>
       </div>
     </div>
