@@ -14,7 +14,7 @@ import BookService from './pages/BookService/BookService';
 import MyBookings from './pages/MyBookings/MyBookings';
 import Profile from './pages/Profile/Profile';
 import Contact from './pages/Contact/Contact';
-import Invoice from './pages/Invoice/Invoice';
+import Invoice from './pages/Invoic/Invoice';
 
 const AppRoutes = () => {
   return (
