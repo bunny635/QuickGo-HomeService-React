@@ -44,5 +44,37 @@ h1, h2, .section-title, .brand-text {
   transform: translateY(-3px); /* Subtle lift effect */
   box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
 }
+/* --- GLOBAL TEXT READABILITY FIX --- */
+
+/* This forces all Bootstrap muted text to be a readable light grey */
+.text-muted {
+  color: #d1d1d1 !important; 
+}
+
+/* This specifically targets paragraphs and descriptions across the app */
+p, .hero-tagline, .auth-subtitle, .footer-desc {
+  color: #e0e0e0 !important;
+}
+
+/* Fix for the text inside Mission/Vision and Feature cards */
+.mv-card p, 
+.trust-card p, 
+.feature-icon-gold + h5 + p, 
+.step-item p,
+.team-card p {
+  color: #ffffff !important;
+  opacity: 0.9;
+}
+
+/* Fix for the sub-text in the Hero and Section headers */
+.about-hero p, .section-header p {
+  color: #ffffff !important;
+}
+
+/* Fix for Leadership Team Titles */
+.team-card .text-muted {
+  color: var(--gold-accent) !important; /* Titles look better in Gold */
+  font-weight: 600;
+}
 
 /* Rest of your global styles... */
