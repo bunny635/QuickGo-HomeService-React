@@ -15,6 +15,8 @@ import MyBookings from './pages/MyBookings/MyBookings';
 import Profile from './pages/Profile/Profile';
 import Contact from './pages/Contact/Contact';
 import Invoice from './pages/Invoic/Invoice';
+const AdminPlaceholder = () => <div className="text-white p-5 text-center"><h1>Admin Portal (Coming Soon)</h1></div>;
+const ProviderPlaceholder = () => <div className="text-white p-5 text-center"><h1>Provider Portal (Coming Soon)</h1></div>;
 
 const AppRoutes = () => {
   return (
@@ -25,6 +27,8 @@ const AppRoutes = () => {
 
       {/* 2. User Portal Routes (With Navbar & Footer) */}
       <Route element={<UserLayout />}>
+        <Route path="/admin-dashboard" element={<AdminPlaceholder />} />
+        <Route path="/provider-dashboard" element={<ProviderPlaceholder />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
