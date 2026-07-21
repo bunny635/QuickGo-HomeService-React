@@ -17,6 +17,7 @@ import MyBookings from './pages/MyBookings/MyBookings';
 import Profile from './pages/Profile/Profile';
 import Contact from './pages/Contact/Contact';
 import Invoice from './pages/Invoice/Invoice';
+import History from './pages/History/History';
 
 // Placeholder components for Admin and Provider Portals
 const AdminPlaceholder = () => (
@@ -52,6 +53,7 @@ const AppRoutes = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/invoice" element={<Invoice />} />
+        <Route path="/history" element={<History />} />
         
         {/* Dashboards sharing the same Layout for easy navigation back */}
         <Route path="/admin-dashboard" element={<AdminPlaceholder />} />
