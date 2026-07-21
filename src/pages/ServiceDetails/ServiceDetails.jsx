@@ -15,7 +15,7 @@ const ServiceDetails = () => {
     title: "Professional Home Cleaning",
     rating: 4.8,
     reviews: 124,
-    price: 250,
+    price: "₹15,000 - ₹50,000",
     time: "2-4 Hours",
     description: "Our premium home cleaning service is designed for those who value a spotless and healthy living environment. We use eco-friendly products and professional-grade equipment to ensure every corner of your home shines.",
     includes: [
@@ -25,7 +25,7 @@ const ServiceDetails = () => {
       "Window and glass cleaning",
       "Dusting of hard-to-reach areas"
     ],
-    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6954?q=80&w=2070"
+    image: "/public/homecleaning.jpg"
   };
 
   return (

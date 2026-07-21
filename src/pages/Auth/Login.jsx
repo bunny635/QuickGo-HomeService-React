@@ -46,7 +46,7 @@ const Login = () => {
         } else {
           window.location.href = "/"; // Customer goes Home
         }
-      }, 1200);
+      }, 2000);
     } else {
       toast.error("Invalid Credentials for " + role.toUpperCase());
     }
