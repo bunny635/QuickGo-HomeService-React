@@ -34,7 +34,7 @@ const Footer = () => {
             <h5 className="footer-title">Contact Us</h5>
             <p className="contact-item"><FiMail className="me-2 text-gold" /> info@quickgo.com</p>
             <p className="contact-item"><FiPhone className="me-2 text-gold" /> +91 98765 43210</p>
-            <p className="contact-item"><FiMapPin className="me-2 text-gold" /> Mumbai, India</p>
+            <p className="contact-item"><FiMapPin className="me-2 text-gold" /> Surat, India</p>
           </div>
         </div>
         <div className="footer-bottom text-center">
