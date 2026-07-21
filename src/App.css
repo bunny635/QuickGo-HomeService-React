@@ -76,5 +76,36 @@ p, .hero-tagline, .auth-subtitle, .footer-desc {
   color: var(--gold-accent) !important; /* Titles look better in Gold */
   font-weight: 600;
 }
+/* --- PREMIUM HOVER EFFECTS --- */
+
+/* 1. Footer & Nav Link Hover */
+.footer-links li a, .nav-links li a {
+  position: relative;
+  transition: 0.3s ease;
+}
+
+.footer-links li a:hover, .nav-links li a:hover {
+  color: var(--gold-accent) !important;
+  padding-left: 5px; /* Slight movement to the right */
+}
+
+/* 2. Global Button Glow */
+.btn-gold:hover, .btn-outline-gold:hover {
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.4); /* Gold shadow glow */
+  transform: translateY(-3px);
+}
+
+/* 3. Card Hover Glow */
+.service-card-premium:hover, .main-service-card:hover {
+  border-color: var(--gold-accent) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 15px rgba(197, 160, 89, 0.1);
+  transform: translateY(-10px);
+}
+
+/* 4. Text Selection Color */
+::selection {
+  background: var(--gold-accent);
+  color: var(--primary-black);
+}
 
 /* Rest of your global styles... */
