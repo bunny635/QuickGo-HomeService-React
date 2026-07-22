@@ -67,9 +67,9 @@ const Login = () => {
           <div className="input-group-custom mb-3">
             <FiUsers className="input-icon" />
             <select className="auth-input" value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="user">Customer Portal</option>
+              <option value="user">User(you) Portal</option>
               <option value="provider">Service Provider Portal</option>
-              <option value="admin">Administrator Portal</option>
+              <option value="admin">Admin Portal</option>
             </select>
           </div>
 
@@ -103,7 +103,7 @@ const Login = () => {
         </form>
 
         <div className="text-center mt-4">
-           <p className="text-muted small">Use your registered credentials to login.</p>
+           <p className="text-muted small">not have id click here Register.</p>
         </div>
       </motion.div>
     </div>
