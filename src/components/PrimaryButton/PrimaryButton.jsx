@@ -8,7 +8,7 @@ const PrimaryButton = ({ text, onClick, type = "button", variant = "solid" }) =>
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       type={type}
-      className={`custom-btn ${variant === "outline" ? "btn-gold-outline" : "btn-gold-solid"}`}
+      className={`custom-btn-gold ${variant === "outline" ? "btn-gold-outline" : "btn-gold-solid"}`}
       onClick={onClick}
     >
       {text}

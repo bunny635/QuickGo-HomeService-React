@@ -1,10 +1,13 @@
-.custom-btn {
+.custom-btn-gold {
   padding: 10px 25px;
-  border-radius: 5px;
-  font-weight: 600;
-  transition: 0.3s;
+  border-radius: 6px;
+  font-weight: 700;
   font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
   border: 2px solid var(--gold-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-gold-solid {
@@ -12,7 +15,17 @@
   color: var(--primary-black);
 }
 
+.btn-gold-solid:hover {
+  background-color: var(--gold-hover);
+  box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+}
+
 .btn-gold-outline {
   background-color: transparent;
   color: var(--gold-accent);
+}
+
+.btn-gold-outline:hover {
+  background-color: var(--gold-accent);
+  color: var(--primary-black);
 }

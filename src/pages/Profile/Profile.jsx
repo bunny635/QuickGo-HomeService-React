@@ -1,161 +1,192 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Profile.css';
 import { motion } from 'framer-motion';
-import { FiUser, FiMail, FiPhone, FiMapPin, FiEdit2, FiCheck, FiShoppingBag, FiStar, FiActivity } from 'react-icons/fi';
+import { 
+  FiCamera, FiEdit, FiShield, FiMail, 
+  FiPhone, FiCheck, FiX, FiStar, FiLock, 
+  FiLogOut, FiChevronRight, FiFileText, FiCalendar 
+} from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 
 const Profile = () => {
-  // 1. State for User Data
+  const fileInputRef = useRef(null); // Ref to trigger hidden file input
+  const [isEditing, setIsEditing] = useState(false);
+  const [bookings, setBookings] = useState([]);
+  
+  // 1. Initial State with Image
   const [user, setUser] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
+    name: "User",
+    email: "user@quickgo.com",
     phone: "+91 98765 43210",
-    address: "Bungalow No. 5, Silver Oak Society, Mumbai, India",
-    profilePic: "https://i.pravatar.cc/150?u=john"
+    location: "Surat, Gujarat",
+    memberSince: "July 2023",
+    profilePic: "https://i.pravatar.cc/150?u=quickgo" // Default
   });
 
-  const [isEditing, setIsEditing] = useState(false);
+  // 2. Load Data from Storage on Mount
+  useEffect(() => {
+    const savedName = localStorage.getItem('user_name');
+    const savedPic = localStorage.getItem('user_pic'); // Load saved photo
+    
+    if (savedName || savedPic) {
+      setUser(prev => ({ 
+        ...prev, 
+        name: savedName || prev.name, 
+        profilePic: savedPic || prev.profilePic 
+      }));
+    }
 
-  // 2. Handle Input Changes
+    const savedBookings = JSON.parse(localStorage.getItem('quickgo_bookings')) || [];
+    setBookings(savedBookings);
+  }, []);
+
+  // 3. Handle Photo Upload Logic
+  const handlePhotoClick = () => {
+    fileInputRef.current.click(); // Open file selector
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) { // 1MB Limit for LocalStorage
+        toast.error("Image too large! Please select a file under 1MB.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setUser({ ...user, profilePic: base64String });
+        localStorage.setItem('user_pic', base64String); // Save image to "Database"
+        toast.success("Profile Photo Updated!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // 3. Save Changes Logic
   const handleSave = () => {
+    if (user.name.trim() === "") return toast.error("Name required");
+    localStorage.setItem('user_name', user.name);
     setIsEditing(false);
-    toast.success("Profile updated successfully!");
+    toast.success("Profile details saved");
+    setTimeout(() => window.location.reload(), 800);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/";
   };
 
   return (
-    <div className="profile-container py-5">
-      <div className="container">
+    <div className="profile-page-wrapper">
+      
+      {/* HIDDEN FILE INPUT */}
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileChange} 
+        accept="image/*" 
+        style={{ display: 'none' }} 
+      />
+
+      {/* 1. PROFILE BANNER */}
+      <section className="profile-hero-banner">
+        <div className="container">
+          <div className="banner-flex">
+            <div className="profile-avatar-container" onClick={handlePhotoClick}>
+              <img src={user.profilePic} alt="Profile" className="avatar-main" />
+              <div className="camera-badge">
+                <FiCamera />
+                <span className="tooltip-text">Change Photo</span>
+              </div>
+            </div>
+            <div className="banner-details text-white">
+              <h2>{user.name} <span className="v-badge"><FiShield /> Verified</span></h2>
+              <p className="text-muted"><FiMail className="me-2"/> {user.email} | <FiPhone className="me-2"/> {user.phone}</p>
+              <p className="member-since">Member Since {user.memberSince}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="container my-5">
         <div className="row g-4">
           
-          {/* LEFT COLUMN: Profile Header & Stats */}
+          {/* LEFT COLUMN: EDIT INFO */}
           <div className="col-lg-4">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }} 
-              animate={{ opacity: 1, x: 0 }}
-              className="profile-card sidebar-card text-center"
-            >
-              <div className="profile-img-wrapper">
-                <img src={user.profilePic} alt="Profile" className="profile-img" />
-                <div className="edit-overlay"><FiEdit2 /></div>
-              </div>
-              <h3 className="mt-3 text-white">{user.name}</h3>
-              <p className="text-gold fw-bold small mb-4">PREMIUM MEMBER</p>
-
-              {/* Statistics Grid */}
-              <div className="row g-2 mt-2">
-                <div className="col-4">
-                  <div className="stat-box">
-                    <FiShoppingBag className="stat-icon" />
-                    <h6>12</h6>
-                    <span>Total</span>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <div className="stat-box">
-                    <FiActivity className="stat-icon" />
-                    <h6>2</h6>
-                    <span>Active</span>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <div className="stat-box">
-                    <FiStar className="stat-icon" />
-                    <h6>4.9</h6>
-                    <span>Rating</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* RIGHT COLUMN: Account Details Form */}
-          <div className="col-lg-8">
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }} 
-              animate={{ opacity: 1, x: 0 }}
-              className="profile-card details-card"
-            >
+            <div className="profile-glass-card p-4 mb-4">
               <div className="d-flex justify-content-between align-items-center mb-4">
-                <h4 className="text-gold mb-0">Account Details</h4>
+                <h5 className="gold-heading mb-0">Personal Details</h5>
                 {!isEditing ? (
-                  <button className="btn-edit-toggle" onClick={() => setIsEditing(true)}>
-                    <FiEdit2 className="me-2" /> Edit Profile
-                  </button>
+                  <button className="btn-edit-action" onClick={() => setIsEditing(true)}><FiEdit /></button>
                 ) : (
-                  <button className="btn-save-toggle" onClick={handleSave}>
-                    <FiCheck className="me-2" /> Save Changes
-                  </button>
+                  <div className="d-flex gap-2">
+                    <button className="btn-save-circle" onClick={handleSave}><FiCheck /></button>
+                    <button className="btn-cancel-circle" onClick={() => setIsEditing(false)}><FiX /></button>
+                  </div>
                 )}
               </div>
 
-              <div className="profile-form">
-                <div className="row">
-                  {/* Name */}
-                  <div className="col-md-6 mb-4">
-                    <label className="profile-label"><FiUser className="me-2"/> Full Name</label>
-                    <input 
-                      type="text" 
-                      name="name"
-                      className={`profile-input ${isEditing ? 'editable' : ''}`}
-                      value={user.name} 
-                      readOnly={!isEditing} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  {/* Email */}
-                  <div className="col-md-6 mb-4">
-                    <label className="profile-label"><FiMail className="me-2"/> Email Address</label>
-                    <input 
-                      type="email" 
-                      name="email"
-                      className={`profile-input ${isEditing ? 'editable' : ''}`}
-                      value={user.email} 
-                      readOnly={!isEditing} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  {/* Phone */}
-                  <div className="col-md-6 mb-4">
-                    <label className="profile-label"><FiPhone className="me-2"/> Phone Number</label>
-                    <input 
-                      type="text" 
-                      name="phone"
-                      className={`profile-input ${isEditing ? 'editable' : ''}`}
-                      value={user.phone} 
-                      readOnly={!isEditing} 
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  {/* Address */}
-                  <div className="col-12 mb-4">
-                    <label className="profile-label"><FiMapPin className="me-2"/> Primary Address</label>
-                    <textarea 
-                      name="address"
-                      className={`profile-input ${isEditing ? 'editable' : ''}`}
-                      rows="3"
-                      value={user.address} 
-                      readOnly={!isEditing} 
-                      onChange={handleInputChange}
-                    ></textarea>
-                  </div>
+              <div className="p-info-form">
+                <div className="p-form-group">
+                  <label>Display Name</label>
+                  {isEditing ? <input type="text" name="name" value={user.name} onChange={handleInputChange} className="p-edit-input" /> : <p>{user.name}</p>}
+                </div>
+                <div className="p-form-group">
+                  <label>Contact Number</label>
+                  {isEditing ? <input type="text" name="phone" value={user.phone} onChange={handleInputChange} className="p-edit-input" /> : <p>{user.phone}</p>}
+                </div>
+                <div className="p-form-group border-0">
+                  <label>Current Location</label>
+                  {isEditing ? <input type="text" name="location" value={user.location} onChange={handleInputChange} className="p-edit-input" /> : <p>{user.location}</p>}
                 </div>
               </div>
+            </div>
 
-              {/* Account Security Preview */}
-              <div className="security-info mt-4">
-                <h5 className="text-muted small mb-3">ACCOUNT SECURITY</h5>
-                <div className="p-3 bg-black rounded-3 d-flex justify-content-between align-items-center">
-                  <span>Password: **********</span>
-                  <button className="btn-link-gold p-0 border-0 bg-transparent">Update Password</button>
+            <div className="row g-3">
+              <div className="col-6"><div className="mini-stat-card"><h4>{bookings.length}</h4><p>Bookings</p></div></div>
+              <div className="col-6"><div className="mini-stat-card"><h4>4.9</h4><p>Rating</p></div></div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: HISTORY & SETTINGS */}
+          <div className="col-lg-8">
+            <div className="mb-5">
+                <h5 className="gold-heading mb-4">Recent Service History</h5>
+                <div className="history-scroll-box">
+                    {bookings.length > 0 ? (
+                        bookings.map((item, idx) => (
+                            <div className="p-history-card mb-3" key={idx}>
+                                <div className="d-flex align-items-center">
+                                    <div className="h-icon-box"><FiFileText /></div>
+                                    <div className="flex-grow-1">
+                                        <div className="d-flex justify-content-between">
+                                            <h6 className="mb-0 text-white">{item.service}</h6>
+                                            <span className="h-price text-gold fw-bold">₹{item.amount}</span>
+                                        </div>
+                                        <p className="mb-0 small text-muted mt-1"><FiCalendar className="me-1"/> {item.date}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="p-5 text-center bg-dark rounded-3"><p className="text-muted m-0">No services booked yet.</p></div>
+                    )}
                 </div>
-              </div>
-            </motion.div>
+            </div>
+
+            <div className="p-settings-section">
+                <h5 className="gold-heading mb-4">Account Settings</h5>
+                <div className="p-settings-list">
+                    <div className="p-set-item"><span><FiLock className="me-2"/> Update Password</span> <FiChevronRight/></div>
+                    <div className="p-set-item logout-red" onClick={handleLogout}><span><FiLogOut className="me-2"/> Sign Out</span> <FiChevronRight/></div>
+                </div>
+            </div>
           </div>
 
         </div>
