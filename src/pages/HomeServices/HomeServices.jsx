@@ -15,19 +15,19 @@ const HomeServices = () => {
     {
       id: 1,
       title: "Home Cleaning",
-      price: "₹15,000 - ₹50,000",
+      price: "₹1500 - ₹5000",
       rating: 4.8,
       category: "Cleaning",
-      image: "/public/home.jpg",
+      image: "/home.jpg",
       desc: "Premium deep cleaning for high-end residential interiors."
     },
     {
       id: 2,
       title: "Garden Cleaning",
-      price: "₹8,000 - ₹25,000",
+      price: "₹800 - ₹2500",
       rating: 4.5,
       category: "Outdoor",
-      image: "/public/garden.jpg",
+      image: "/garden.jpg",
       desc: "Professional landscaping and yard maintenance services."
     },
     {
@@ -36,7 +36,7 @@ const HomeServices = () => {
       price: "₹500 - ₹5,000",
       rating: 4.9,
       category: "Electrical",
-      image: "/public/ElectricianService.jpg",
+      image: "/ElectricianService.jpg",
       desc: "Certified experts for all your electrical repairs and safety checks."
     }
   ];

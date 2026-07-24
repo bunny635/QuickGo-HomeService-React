@@ -1,129 +1,69 @@
-.service-details-container {
+.service-details-page-wrapper {
   background-color: var(--primary-black);
-  color: white;
   min-height: 100vh;
 }
 
-.btn-back {
-  background: none;
-  border: none;
+.btn-back-link {
+  background: none; border: none;
   color: var(--gold-accent);
-  font-weight: 600;
-  padding: 0;
+  font-weight: 700; font-size: 14px;
+  transition: 0.3s;
 }
+.btn-back-link:hover { letter-spacing: 1px; }
 
-.details-img {
+/* Image Styling */
+.main-image-frame {
+  position: relative;
   width: 100%;
-  max-height: 450px;
-  object-fit: cover;
+  height: 450px;
+  border-radius: 20px;
+  overflow: hidden;
   border: 1px solid #333;
 }
+.details-main-img { width: 100%; height: 100%; object-fit: cover; }
 
-.service-title-main {
-  font-weight: 800;
-  letter-spacing: -1px;
+.rating-tag-float {
+  position: absolute; top: 20px; right: 20px;
+  background: rgba(0,0,0,0.8); color: var(--gold-accent);
+  padding: 5px 15px; border-radius: 50px;
+  font-weight: 800; backdrop-filter: blur(5px);
 }
 
-.rating-badge {
-  background: var(--gold-accent);
-  color: var(--primary-black);
-  padding: 5px 12px;
-  border-radius: 5px;
-  font-weight: 800;
-}
+.service-title-text { color: white; font-weight: 800; font-size: 2.8rem; letter-spacing: -1px; }
+.service-full-desc { color: #ccc; font-size: 1.1rem; line-height: 1.8; }
 
-.description-box h4, .includes-box h4 {
-  color: var(--gold-accent);
-  font-weight: 700;
-  margin-bottom: 15px;
-}
+.gold-title { color: var(--gold-accent); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
 
-.includes-list {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-}
-
-.includes-list li {
-  display: flex;
-  align-items: center;
-  color: var(--text-muted);
-}
-
-.check-icon {
-  color: var(--gold-accent);
-  margin-right: 10px;
-  font-size: 18px;
-}
-
-/* Sidebar Styles */
-.booking-sidebar {
+.check-item-card {
   background: var(--secondary-black);
-  border: 1px solid #333;
-  position: sticky;
-  top: 100px;
-}
-
-.sidebar-price {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
-.sidebar-price span {
-  display: block;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--gold-accent);
-}
-
-.divider-gold {
-  border-top: 2px solid var(--gold-accent);
-  opacity: 1;
-  width: 50px;
-}
-
-.sidebar-info-item {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.sidebar-info-item .icon {
-  color: var(--gold-accent);
-  font-size: 24px;
-}
-
-.sidebar-info-item h6 {
-  margin-bottom: 2px;
-  font-weight: 600;
-}
-
-.sidebar-info-item p {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.sidebar-footer-note {
-  font-size: 12px;
-  color: #555;
-}
-
-/* Reviews */
-.mini-review-card {
-  background: #111;
+  padding: 15px; border-radius: 10px;
+  color: white; font-weight: 500;
   border: 1px solid #222;
 }
 
-.text-gold {
-  color: var(--gold-accent);
+/* Sidebar Card */
+.booking-side-card {
+  background: var(--secondary-black);
+  padding: 35px; border-radius: 25px;
+  border: 1px solid #333;
+  position: sticky; top: 120px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
 }
 
-@media (max-width: 992px) {
-  .booking-sidebar {
-    position: static;
-    margin-top: 30px;
-  }
+.pricing-box h2 { color: var(--gold-accent); font-weight: 800; font-size: 2.5rem; margin-top: 5px; }
+.pricing-box h2 span { font-size: 1rem; color: #555; font-weight: 400; }
+
+.divider-gold-thin { border-top: 1px solid rgba(197, 160, 89, 0.2); margin: 25px 0; }
+
+.info-row-item { display: flex; gap: 15px; margin-bottom: 22px; }
+.row-icon { color: var(--gold-accent); font-size: 24px; margin-top: 5px; }
+.row-label { font-size: 10px; color: #555; text-transform: uppercase; font-weight: 800; margin: 0; }
+.row-val { color: white; font-weight: 600; margin: 0; font-size: 15px; }
+
+.help-box { text-align: center; font-size: 13px; color: #666; font-weight: 600; }
+
+@media (max-width: 991px) {
+  .main-image-frame { height: 300px; }
+  .service-title-text { font-size: 2rem; }
+  .booking-side-card { position: static; margin-top: 30px; }
 }
