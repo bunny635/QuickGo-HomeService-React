@@ -1,156 +1,70 @@
-/* --- QUICKGO PREMIUM AUTH STYLES --- */
-
+/* THE TRANSPARENCY CHAIN */
 .auth-page-container {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  background-color: #0F1115; /* Matte Black Fallback */
-  overflow-x: hidden;
+    background-color: transparent !important;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* The wrapper centering the form on the screen */
 .auth-wrapper {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 10; /* Sits above the background (z-index: -1) */
-  background: transparent !important; /* Removes all static background images */
-  padding: 40px 20px;
+    background: transparent !important;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 10; /* Ensures form is interactive and on top */
+    padding: 30px 20px;
 }
 
-/* Luxury Glassmorphism Card */
+/* THE PREMIUM GLASS CARD */
 .glass-card {
-  width: 100%;
-  max-width: 420px;
-  background: rgba(22, 22, 22, 0.75); /* Dark semi-transparent */
-  backdrop-filter: blur(15px); /* Premium blur effect */
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(197, 160, 89, 0.25); /* Subtle Gold Border */
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(15, 17, 21, 0.8) !important; /* Luxury Glass */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    transition: 0.3s ease;
 }
 
-.glass-card:hover {
-  border-color: rgba(197, 160, 89, 0.5);
-}
+.register-card { max-width: 480px; }
 
-/* Specific styling for the longer Register card */
-.register-card {
-  max-width: 480px;
-}
+/* BRANDING */
+.auth-logo { height: 65px; border-radius: 50%; border: 2px solid var(--gold-accent); margin-bottom: 12px; }
+.auth-title { color: white; font-weight: 800; font-family: 'Playfair Display', serif; }
+.auth-title span { color: var(--gold-accent); }
+.auth-subtitle { color: #777; font-size: 13px; letter-spacing: 1px; }
 
-/* Brand Assets within the card */
-.auth-logo {
-  height: 65px;
-  border-radius: 50%;
-  border: 2px solid var(--gold-accent);
-  padding: 3px;
-  margin-bottom: 12px;
-}
-
-.auth-title {
-  color: white;
-  font-weight: 800;
-  font-family: 'Playfair Display', serif; /* Luxury Serif Font */
-  letter-spacing: -0.5px;
-}
-
-.auth-title span {
-  color: var(--gold-accent);
-}
-
-.auth-subtitle {
-  color: #888;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-/* Custom Input Field Styling */
-.input-group-custom {
-  position: relative;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.input-icon {
-  position: absolute;
-  left: 15px;
-  color: var(--gold-accent);
-  font-size: 18px;
-  z-index: 5;
-}
+/* INPUTS */
+.input-group-custom { position: relative; margin-bottom: 18px; display: flex; align-items: center; }
+.input-icon { position: absolute; left: 15px; color: var(--gold-accent); font-size: 18px; z-index: 5; }
 
 .auth-input {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.4) !important;
-  border: 1px solid #333;
-  padding: 12px 15px 12px 45px;
-  border-radius: 10px;
-  color: white !important;
-  outline: none;
-  font-size: 15px;
-  transition: 0.3s ease;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid #333;
+    padding: 12px 15px 12px 45px;
+    border-radius: 10px;
+    color: white !important;
+    outline: none;
+    transition: 0.3s;
+    font-size: 15px;
 }
+.auth-input:focus { border-color: var(--gold-accent); background: rgba(0, 0, 0, 0.6) !important; }
 
-.auth-input:focus {
-  border-color: var(--gold-accent);
-  background: rgba(0, 0, 0, 0.6) !important;
-  box-shadow: 0 0 10px rgba(197, 160, 89, 0.1);
-}
+/* LINKS & UTILS */
+.auth-link-gold { color: var(--gold-accent); font-weight: 700; text-decoration: none; transition: 0.3s; }
+.auth-link-gold:hover { text-decoration: underline !important; color: var(--gold-hover); }
 
-/* Select Dropdown specific cleanup */
-select.auth-input {
-  cursor: pointer;
-  appearance: none; /* Removes default browser arrow */
-}
+.custom-check:checked { background-color: var(--gold-accent); border-color: var(--gold-accent); }
 
-/* Checkbox and Label styling */
-.custom-check {
-  cursor: pointer;
-  background-color: transparent;
-  border: 1px solid #444;
-}
-
-.custom-check:checked {
-  background-color: var(--gold-accent);
-  border-color: var(--gold-accent);
-}
-
-/* Links and Helper texts */
-.auth-link-gold {
-  color: var(--gold-accent);
-  text-decoration: none;
-  font-weight: 700;
-  transition: 0.3s;
-}
-
-.auth-link-gold:hover {
-  color: var(--gold-hover);
-  text-decoration: underline !important;
-}
-
-/* Scrollbar styling for Register card overflow */
-.register-card::-webkit-scrollbar {
-  width: 5px;
-}
-.register-card::-webkit-scrollbar-thumb {
-  background: var(--gold-accent);
-  border-radius: 10px;
-}
-
-/* Responsiveness */
+/* MOBILE FIX */
 @media (max-width: 576px) {
-  .glass-card {
-    padding: 30px 20px;
-    border-radius: 15px;
-  }
-  
-  .auth-title {
-    font-size: 1.5rem;
-  }
+    .glass-card { padding: 30px 20px; border-radius: 15px; }
+    .auth-title { font-size: 1.5rem; }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Auth.css';
-import CinematicBg from '../../components/CinematicBg/CinematicBg'; 
+import CinematicBackground from '../../components/CinematicBackground/CinematicBackground'; 
 import { motion } from 'framer-motion';
 import { FiMail, FiLock, FiArrowRight, FiUsers } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
@@ -43,7 +43,7 @@ const Login = () => {
   return (
     <div className="auth-page-container">
       {/* BACKGROUND LAYER */}
-      <CinematicBg />
+      <CinematicBackground />
 
       {/* FORM LAYER */}
       <div className="auth-wrapper">
