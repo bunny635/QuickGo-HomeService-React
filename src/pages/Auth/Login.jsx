@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './Auth.css';
+import CinematicBg from '../../components/CinematicBg/CinematicBg'; 
 import { motion } from 'framer-motion';
 import { FiMail, FiLock, FiArrowRight, FiUsers } from 'react-icons/fi';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 
 const Login = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
@@ -15,97 +15,80 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // --- HARDCODED CREDENTIALS LOGIC ---
     let isValid = false;
     let displayName = "";
 
+    // Presentation Credentials Logic
     if (role === "user" && email === "user@quickgo.com" && password === "user123") {
-      isValid = true;
-      displayName = "Smit Ghoghari";
+      isValid = true; displayName = "Smit Ghoghari";
     } else if (role === "admin" && email === "admin@quickgo.com" && password === "admin123") {
-      isValid = true;
-      displayName = "Kavya Desai";
+      isValid = true; displayName = "System Admin";
     } else if (role === "provider" && email === "provider@quickgo.com" && password === "provider123") {
-      isValid = true;
-      displayName = "Vinay Dharaiya";
+      isValid = true; displayName = "Pro Service Team";
     }
 
     if (isValid) {
-      // Save details to simulated session
       localStorage.setItem('user_name', displayName);
       localStorage.setItem('user_role', role);
-
-      toast.success(`Welcome ${displayName}! Accessing ${role} portal...`);
-
-      // Redirect based on role
+      toast.success(`Welcome ${displayName}!`);
+      
       setTimeout(() => {
-        if (role === "admin") {
-          window.location.href = "/admin-dashboard";
-        } else if (role === "provider") {
-          window.location.href = "/provider-dashboard";
-        } else {
-          window.location.href = "/"; // Customer goes Home
-        }
+        window.location.href = role === "admin" ? "/admin-dashboard" : role === "provider" ? "/provider-dashboard" : "/";
       }, 2000);
     } else {
-      toast.error("Invalid Credentials for " + role.toUpperCase());
+      toast.error("Invalid credentials for the selected portal.");
     }
   };
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-overlay"></div>
-      <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="glass-card">
-        <div className="text-center mb-4">
-          <img src="/weblogo.jpg" alt="QuickGo" className="auth-logo" />
-          <h2 className="auth-title mt-2">Quick<span>Go</span> Access</h2>
-          <p className="auth-subtitle text-muted">Select your portal role</p>
-        </div>
+    <div className="auth-page-container">
+      {/* BACKGROUND LAYER */}
+      <CinematicBg />
 
-        <form onSubmit={handleLogin}>
-          {/* Role Dropdown */}
-          <div className="input-group-custom mb-3">
-            <FiUsers className="input-icon" />
-            <select className="auth-input" value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="user">User(you) Portal</option>
-              <option value="provider">Service Provider Portal</option>
-              <option value="admin">Admin Portal</option>
-            </select>
+      {/* FORM LAYER */}
+      <div className="auth-wrapper">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }} 
+          animate={{ opacity: 1, scale: 1 }} 
+          transition={{ duration: 0.8 }}
+          className="glass-card"
+        >
+          <div className="text-center mb-4">
+            <img src="/weblogo.jpg" alt="QuickGo" className="auth-logo" />
+            <h2 className="auth-title mt-2">Quick<span>Go</span> Access</h2>
+            <p className="auth-subtitle text-muted small">Choose your portal role to sign in</p>
           </div>
 
-          {/* Email */}
-          <div className="input-group-custom mb-3">
-            <FiMail className="input-icon" />
-            <input 
-              type="email" 
-              placeholder="Email ID" 
-              className="auth-input" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
+          <form onSubmit={handleLogin}>
+            <div className="input-group-custom mb-3">
+              <FiUsers className="input-icon" />
+              <select className="auth-input" value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="user">User Portal</option>
+                <option value="provider">Service Provider Portal</option>
+                <option value="admin">Administrator Portal</option>
+              </select>
+            </div>
+
+            <div className="input-group-custom mb-3">
+              <FiMail className="input-icon" />
+              <input type="email" placeholder="Email ID" className="auth-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
+
+            <div className="input-group-custom mb-4">
+              <FiLock className="input-icon" />
+              <input type="password" placeholder="Password" className="auth-input" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </div>
+
+            <PrimaryButton text={<span>Sign In <FiArrowRight className="ms-2"/></span>} type="submit" />
+          </form>
+
+          <div className="text-center mt-4">
+             <p className="text-muted small">
+               Don't have an account? <Link to="/register" className="auth-link-gold text-decoration-none ms-1">Register here</Link>
+             </p>
           </div>
-
-          {/* Password */}
-          <div className="input-group-custom mb-4">
-            <FiLock className="input-icon" />
-            <input 
-              type="password" 
-              placeholder="Password" 
-              className="auth-input" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-          </div>
-
-          <PrimaryButton text={<span>Sign In <FiArrowRight className="ms-2"/></span>} type="submit" />
-        </form>
-
-        <div className="text-center mt-4">
-           <p className="text-muted small">not have id click here Register.</p>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 };

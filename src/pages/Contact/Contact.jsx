@@ -80,7 +80,7 @@ const Contact = () => {
                 <FiClock className="info-icon" />
                 <div>
                   <h6>Working Hours</h6>
-                  <p>Mon - Sat: 09:00 AM - 08:00 PM</p>
+                  <p>Mon - Sat: 09:00 AM - 05:00 PM</p>
                 </div>
               </div>
 
@@ -103,16 +103,16 @@ const Contact = () => {
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label className="form-label-gold">Your Name</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="contact-input" placeholder="e.g. John Doe" />
+                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="contact-input" placeholder="e.g. your name" />
                   </div>
                   <div className="col-md-6 mb-3">
                     <label className="form-label-gold">Email Address</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="contact-input" placeholder="john@example.com" />
+                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="contact-input" placeholder="your@example.com" />
                   </div>
                 </div>
                 <div className="mb-3">
                   <label className="form-label-gold">Subject</label>
-                  <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="contact-input" placeholder="e.g. Inquiry about Cleaning" />
+                  <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="contact-input" placeholder="e.g. Inquiry about services" />
                 </div>
                 <div className="mb-4">
                   <label className="form-label-gold">Detailed Message</label>

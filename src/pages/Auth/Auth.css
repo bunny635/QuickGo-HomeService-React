@@ -1,56 +1,78 @@
+/* --- QUICKGO PREMIUM AUTH STYLES --- */
+
+.auth-page-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-color: #0F1115; /* Matte Black Fallback */
+  overflow-x: hidden;
+}
+
+/* The wrapper centering the form on the screen */
 .auth-wrapper {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1887') center/cover;
   position: relative;
-  padding: 20px;
+  z-index: 10; /* Sits above the background (z-index: -1) */
+  background: transparent !important; /* Removes all static background images */
+  padding: 40px 20px;
 }
 
-.auth-overlay {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  z-index: 1;
-}
-
-/* Modern Glass Card */
+/* Luxury Glassmorphism Card */
 .glass-card {
-  position: relative;
-  z-index: 2;
   width: 100%;
   max-width: 420px;
-  background: rgba(22, 22, 22, 0.7);
-  backdrop-filter: blur(15px); /* This creates the glass effect */
-  border: 1px solid rgba(197, 160, 89, 0.3);
+  background: rgba(22, 22, 22, 0.75); /* Dark semi-transparent */
+  backdrop-filter: blur(15px); /* Premium blur effect */
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(197, 160, 89, 0.25); /* Subtle Gold Border */
   padding: 40px;
   border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
+.glass-card:hover {
+  border-color: rgba(197, 160, 89, 0.5);
+}
+
+/* Specific styling for the longer Register card */
+.register-card {
+  max-width: 480px;
+}
+
+/* Brand Assets within the card */
 .auth-logo {
-  height: 60px;
+  height: 65px;
   border-radius: 50%;
   border: 2px solid var(--gold-accent);
+  padding: 3px;
+  margin-bottom: 12px;
 }
 
 .auth-title {
   color: white;
   font-weight: 800;
-  letter-spacing: -1px;
+  font-family: 'Playfair Display', serif; /* Luxury Serif Font */
+  letter-spacing: -0.5px;
 }
 
-.auth-title span { color: var(--gold-accent); }
+.auth-title span {
+  color: var(--gold-accent);
+}
 
 .auth-subtitle {
-  color: var(--text-muted);
-  font-size: 14px;
+  color: #888;
+  font-size: 13px;
+  letter-spacing: 1px;
 }
 
-/* Custom Input Styling */
+/* Custom Input Field Styling */
 .input-group-custom {
   position: relative;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
 }
@@ -60,35 +82,38 @@
   left: 15px;
   color: var(--gold-accent);
   font-size: 18px;
+  z-index: 5;
 }
 
 .auth-input {
   width: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4) !important;
   border: 1px solid #333;
   padding: 12px 15px 12px 45px;
   border-radius: 10px;
-  color: var(--gold-accent);
+  color: white !important;
   outline: none;
-  transition: 0.3s;
-  background-color: #333;
+  font-size: 15px;
+  transition: 0.3s ease;
 }
 
 .auth-input:focus {
   border-color: var(--gold-accent);
-  box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
+  background: rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.1);
 }
 
-/* Links and Checks */
-.forgot-link, .auth-link-gold {
-  color: var(--gold-accent);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
+/* Select Dropdown specific cleanup */
+select.auth-input {
+  cursor: pointer;
+  appearance: none; /* Removes default browser arrow */
 }
 
-.forgot-link:hover, .auth-link-gold:hover {
-  text-decoration: underline;
+/* Checkbox and Label styling */
+.custom-check {
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #444;
 }
 
 .custom-check:checked {
@@ -96,19 +121,20 @@
   border-color: var(--gold-accent);
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .glass-card { padding: 30px 20px; }
-}
-/*the register card height */
-
-.register-card {
-  max-width: 480px; /* Slightly wider than login */
-  max-height: 90vh; /* Prevents card from going off screen */
-  overflow-y: auto; /* Adds scroll inside card for small screens */
+/* Links and Helper texts */
+.auth-link-gold {
+  color: var(--gold-accent);
+  text-decoration: none;
+  font-weight: 700;
+  transition: 0.3s;
 }
 
-/* Custom scrollbar for the glass card */
+.auth-link-gold:hover {
+  color: var(--gold-hover);
+  text-decoration: underline !important;
+}
+
+/* Scrollbar styling for Register card overflow */
 .register-card::-webkit-scrollbar {
   width: 5px;
 }
@@ -117,9 +143,14 @@
   border-radius: 10px;
 }
 
-/* Hide arrow buttons in number input (Phone field) */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+/* Responsiveness */
+@media (max-width: 576px) {
+  .glass-card {
+    padding: 30px 20px;
+    border-radius: 15px;
+  }
+  
+  .auth-title {
+    font-size: 1.5rem;
+  }
 }
