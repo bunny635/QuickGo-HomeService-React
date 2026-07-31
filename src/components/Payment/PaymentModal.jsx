@@ -11,7 +11,7 @@ const PaymentModal = ({ isOpen, onClose, amount, onPaymentSuccess }) => {
     // Simulate Network Delay
     setTimeout(() => {
       setStep('success');
-    }, 3000);
+    }, 5000);
   };
 
   if (!isOpen) return null;
