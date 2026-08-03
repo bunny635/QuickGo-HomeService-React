@@ -115,11 +115,11 @@ const BookService = () => {
       </div>
 
       <PaymentModal 
-        isOpen={showPayment} 
-        onClose={() => setShowPayment(false)}
-        amount={totalAmount}
-        onPaymentSuccess={handleFinalSuccess} 
-      />
+   isOpen={showPayment} 
+   onClose={() => setShowPayment(false)} 
+   amount={totalAmount} 
+   bookingData={formData} 
+/>
     </div>
   );
 };

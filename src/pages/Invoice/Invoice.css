@@ -1,16 +1,47 @@
-.invoice-container {
-  background-color: var(--primary-black);
-  min-height: 100vh;
+.invoice-page-container { background-color: var(--primary-black); min-height: 100vh; }
+
+.invoice-premium-card {
+    background: #111; max-width: 800px; border-radius: 25px; padding: 60px;
+    border: 1px solid rgba(197, 160, 89, 0.2); font-family: 'Inter', sans-serif;
+    position: relative; overflow: hidden;
 }
 
-.invoice-box {
-  border-radius: 10px;
-  color: #333 !important;
+.bill-watermark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-20deg);
+    width: 70%; opacity: 0.03; pointer-events: none; z-index: 0;
 }
 
-/* Print Specific Logic */
+.invoice-brand-title { color: white; font-weight: 800; font-size: 2.2rem; margin: 0; }
+.invoice-brand-title span { color: var(--gold-accent); }
+.gold-subtitle { color: var(--gold-accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
+
+.status-pill-paid {
+    display: inline-block; background: rgba(40, 167, 69, 0.1); color: #28a745;
+    padding: 6px 16px; border-radius: 50px; font-size: 11px; font-weight: 800; border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.invoice-brand-logo { height: 75px; border-radius: 50%; border: 2px solid var(--gold-accent); position: relative; z-index: 2; }
+.gold-label-tiny { color: #555; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
+
+/* Table Styling for Black BG and Gold Text */
+.invoice-dark-table { background: #000 !important; border: 1px solid #333 !important; border-radius: 12px; overflow: hidden; margin-top: 30px; }
+.invoice-dark-table thead th { background: #000 !important; color: var(--gold-accent) !important; border-bottom: 1px solid #222 !important; padding: 18px !important; }
+.invoice-dark-table tbody td { background: #000 !important; color: var(--gold-accent) !important; border-bottom: 1px solid #111 !important; padding: 18px !important; }
+
+.gold-divider-thin { border-top: 1px solid rgba(197, 160, 89, 0.2); opacity: 1; margin: 20px 0; }
+
+.btn-luxury-print {
+    background: var(--gold-accent); color: black; border: none;
+    padding: 15px 45px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s ease;
+}
+
 @media print {
-  nav, footer, .no-print, .btn { display: none !important; }
-  body, .invoice-container { background-color: white !important; padding: 0 !important; }
-  .invoice-box { box-shadow: none !important; border: none !important; }
+    body { background: white !important; }
+    nav, footer, .no-print { display: none !important; }
+    .invoice-page-container { background: white !important; padding: 0 !important; }
+    .invoice-premium-card { background: white !important; border: none !important; color: black !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; box-shadow: none !important; }
+    .bill-watermark { display: none; }
+    .text-white, .invoice-brand-title { color: black !important; }
+    .invoice-brand-title span { color: #997400 !important; }
+    .invoice-dark-table, .invoice-dark-table thead th, .invoice-dark-table tbody td { background: white !important; color: black !important; border: 1px solid #ddd !important; }
 }

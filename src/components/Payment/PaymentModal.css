@@ -1,67 +1,32 @@
-.payment-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 2000;
+.gateway-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.92); display: flex; justify-content: center; align-items: center;
+    z-index: 10000; backdrop-filter: blur(15px);
 }
-
-.payment-card {
-  background: #111;
-  width: 100%;
-  max-width: 400px;
-  border-radius: 15px;
-  overflow: hidden;
-  border: 1px solid var(--gold-accent);
+.gateway-card {
+    background: #111; width: 95%; max-width: 420px; border-radius: 20px;
+    border: 1px solid rgba(197, 160, 89, 0.3); overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
 }
-
-.payment-header {
-  background: #000;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  border-bottom: 1px solid #222;
+.gateway-head {
+    background: #000; padding: 15px 25px; display: flex; justify-content: space-between;
+    align-items: center; border-bottom: 1px solid #222;
 }
+.g-logo { height: 35px; border-radius: 50%; border: 1px solid var(--gold-accent); }
+.g-close { background: none; border: none; color: #555; font-size: 24px; cursor: pointer; }
 
-.payment-logo { height: 40px; border-radius: 50%; border: 1px solid var(--gold-accent); }
+.gold-label { font-size: 11px; text-transform: uppercase; color: var(--gold-accent); font-weight: 800; margin-bottom: 10px; }
+.summary-list { background: #000; padding: 15px; border-radius: 12px; border: 1px solid #222; }
+.g-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px; color: #aaa; }
 
-.amount-banner {
-  background: rgba(197, 160, 89, 0.1);
-  padding: 15px;
-  text-align: center;
-  border-radius: 10px;
+.g-tabs { display: grid; grid-template-columns: repeat(3, 1fr); background: #000; }
+.g-tabs button {
+    background: none; border: none; padding: 15px; color: #555; font-weight: 700; border-bottom: 2px solid transparent; transition: 0.3s;
 }
+.g-tabs button.active { color: var(--gold-accent); border-bottom-color: var(--gold-accent); background: #161616; }
 
-.amount-banner h3 { color: var(--gold-accent); font-weight: 800; margin: 0; }
-
-.method-item {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  border: 1px solid #222;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: 0.3s;
+.g-input { width: 100%; background: #181818; border: 1px solid #333; color: white; padding: 12px; border-radius: 8px; outline: none; }
+.btn-pay-now {
+    width: 100%; background: var(--gold-accent); color: black; border: none;
+    padding: 15px; border-radius: 10px; font-weight: 800; transition: 0.3s; cursor: pointer;
 }
-
-.method-item:hover { border-color: var(--gold-accent); background: #1a1a1a; }
-.method-item .icon { font-size: 20px; color: var(--gold-accent); margin-right: 15px; }
-.method-item .arrow { margin-left: auto; color: #444; }
-
-.loader-icon { font-size: 50px; color: var(--gold-accent); }
-.success-icon { font-size: 60px; color: #28a745; }
-
-.btn-pay-confirm {
-    width: 100%;
-    background: var(--gold-accent);
-    color: black;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 700;
-    margin-top: 20px;
-}
-
-.close-x { background: none; border: none; color: #555; font-size: 24px; margin-left: auto; }
+.btn-pay-now:hover { background: var(--gold-hover); transform: translateY(-2px); }
