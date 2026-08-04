@@ -1,47 +1,80 @@
-.invoice-page-container { background-color: var(--primary-black); min-height: 100vh; }
-
+/* 1. MAIN LAYOUT & CONTAINERS */
+.invoice-page-container { background-color: var(--primary-black, #0F1115); min-height: 100vh; }
 .invoice-premium-card {
-    background: #111; max-width: 800px; border-radius: 25px; padding: 60px;
-    border: 1px solid rgba(197, 160, 89, 0.2); font-family: 'Inter', sans-serif;
-    position: relative; overflow: hidden;
+    background: linear-gradient(145deg, #16181D 0%, #0B0C0F 100%);
+    max-width: 850px; border-radius: 20px; padding: 60px;
+    border: 1px solid rgba(197, 160, 89, 0.2); box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    position: relative; overflow: hidden; 
 }
-
 .bill-watermark {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-20deg);
-    width: 70%; opacity: 0.03; pointer-events: none; z-index: 0;
+    position: absolute; top: 50%; left: 50%; width: 60%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    opacity: 0.02; pointer-events: none; z-index: 0; filter: grayscale(100%);
 }
+.invoice-header, .info-card, .invoice-dark-table, .totals-box, .invoice-footer { position: relative; z-index: 2; }
 
-.invoice-brand-title { color: white; font-weight: 800; font-size: 2.2rem; margin: 0; }
-.invoice-brand-title span { color: var(--gold-accent); }
-.gold-subtitle { color: var(--gold-accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
-
+/* 2. TYPOGRAPHY & BADGES */
+.invoice-brand-title { color: white; font-weight: 900; font-size: 2.5rem; margin: 0; letter-spacing: -1px; }
+.invoice-brand-title span, .text-gold { color: var(--gold-accent, #D4AF37) !important; }
+.gold-subtitle { color: var(--gold-accent, #D4AF37); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
 .status-pill-paid {
-    display: inline-block; background: rgba(40, 167, 69, 0.1); color: #28a745;
-    padding: 6px 16px; border-radius: 50px; font-size: 11px; font-weight: 800; border: 1px solid rgba(40, 167, 69, 0.3);
+    display: inline-flex; align-items: center; background: rgba(40, 167, 69, 0.1); color: #28a745;
+    padding: 8px 18px; border-radius: 50px; font-size: 12px; font-weight: 800; border: 1px solid rgba(40, 167, 69, 0.3);
 }
+.gold-label-tiny { color: #888; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
 
-.invoice-brand-logo { height: 75px; border-radius: 50%; border: 2px solid var(--gold-accent); position: relative; z-index: 2; }
-.gold-label-tiny { color: #555; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
+/* 3. TABLES, CARDS & DIVIDERS */
+.info-card { padding: 10px; }
+.border-left-gold { border-left: 2px solid rgba(197, 160, 89, 0.2); padding-left: 20px; }
+.invoice-dark-table { background: rgba(0,0,0,0.4) !important; border-radius: 12px; overflow: hidden; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); }
+.invoice-dark-table thead th { background: rgba(0,0,0,0.6) !important; color: var(--gold-accent) !important; border-bottom: 1px solid rgba(197, 160, 89, 0.2) !important; padding: 20px !important; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+.invoice-dark-table tbody td { background: transparent !important; color: white !important; border-bottom: none !important; padding: 25px 20px !important; }
+.totals-box { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); }
+.gold-divider-thin { border-top: 1px solid rgba(197, 160, 89, 0.2); opacity: 1; }
+.invoice-footer { border-top: 1px solid rgba(255,255,255,0.05); }
+.italic-tagline { font-style: italic; letter-spacing: 2px; }
 
-/* Table Styling for Black BG and Gold Text */
-.invoice-dark-table { background: #000 !important; border: 1px solid #333 !important; border-radius: 12px; overflow: hidden; margin-top: 30px; }
-.invoice-dark-table thead th { background: #000 !important; color: var(--gold-accent) !important; border-bottom: 1px solid #222 !important; padding: 18px !important; }
-.invoice-dark-table tbody td { background: #000 !important; color: var(--gold-accent) !important; border-bottom: 1px solid #111 !important; padding: 18px !important; }
-
-.gold-divider-thin { border-top: 1px solid rgba(197, 160, 89, 0.2); opacity: 1; margin: 20px 0; }
-
+/* 4. ACTION BUTTONS */
 .btn-luxury-print {
-    background: var(--gold-accent); color: black; border: none;
-    padding: 15px 45px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s ease;
+    background: var(--gold-accent, #D4AF37); color: black; border: 1px solid var(--gold-accent, #D4AF37);
+    padding: 15px 40px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s ease; display: inline-flex; align-items: center;
 }
+.btn-luxury-print:hover { background: #E6C25A; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2); }
+.btn-luxury-print.outline { background: transparent; color: white; border-color: #555; }
+.btn-luxury-print.outline:hover { border-color: var(--gold-accent); color: var(--gold-accent); background: rgba(255,255,255,0.02); }
 
+/* 5. A4 PRINT OPTIMIZATION */
 @media print {
-    body { background: white !important; }
+    @page { size: A4 portrait; margin: 10mm; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    
+    body, html, .invoice-page-container { background: #0F1115 !important; margin: 0 !important; padding: 0 !important; height: auto !important; }
     nav, footer, .no-print { display: none !important; }
-    .invoice-page-container { background: white !important; padding: 0 !important; }
-    .invoice-premium-card { background: white !important; border: none !important; color: black !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; box-shadow: none !important; }
-    .bill-watermark { display: none; }
-    .text-white, .invoice-brand-title { color: black !important; }
-    .invoice-brand-title span { color: #997400 !important; }
-    .invoice-dark-table, .invoice-dark-table thead th, .invoice-dark-table tbody td { background: white !important; color: black !important; border: 1px solid #ddd !important; }
+    .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+    
+    .invoice-premium-card { 
+        background: #16181D !important; border: 1px solid rgba(197, 160, 89, 0.5) !important; color: white !important; 
+        padding: 25px 35px !important; width: 100% !important; max-width: 100% !important; box-shadow: none !important; 
+        border-radius: 15px !important; page-break-inside: avoid !important; break-inside: avoid !important;
+    }
+
+    /* Print specific spacing reductions */
+    .mb-5 { margin-bottom: 25px !important; }
+    .mt-5 { margin-top: 25px !important; }
+    .pt-4, .pt-5 { padding-top: 15px !important; }
+    
+    /* Retain styling overrides */
+    .bill-watermark { display: block !important; opacity: 0.05 !important; filter: grayscale(100%) !important; }
+    .text-white, .invoice-brand-title { color: white !important; }
+    .invoice-brand-title span { color: #D4AF37 !important; }
+    .text-muted { color: #aaa !important; }
+    
+    /* Table & Border overrides */
+    .info-card.border-left-gold, .gold-divider-thin, .invoice-footer { border-color: rgba(197, 160, 89, 0.3) !important; }
+    .invoice-dark-table { background: #000 !important; border: 1px solid rgba(197, 160, 89, 0.3) !important; margin-top: 10px !important; }
+    .invoice-dark-table thead th { background: #111 !important; color: #D4AF37 !important; border-bottom: 2px solid rgba(197, 160, 89, 0.3) !important; }
+    .invoice-dark-table thead th, .invoice-dark-table tbody td, .totals-box { padding: 15px !important; }
+    .invoice-dark-table tbody td { color: white !important; }
+    .totals-box { background: #111 !important; border: 1px solid rgba(197, 160, 89, 0.3) !important; }
 }

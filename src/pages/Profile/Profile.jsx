@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Profile.css';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   FiCamera, FiEdit, FiShield, FiMail, FiPhone, FiCheck, FiX, 
   FiStar, FiLock, FiLogOut, FiChevronRight, FiFileText, 
@@ -14,7 +14,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   
-  // 1. STATE MANAGEMENT
   const [isEditing, setIsEditing] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [totalSpent, setTotalSpent] = useState(0);
@@ -27,26 +26,28 @@ const Profile = () => {
     dob: "15 Aug 2002",
     gender: "Male",
     memberSince: "July 2023",
-    profilePic: "avatar3.jpg"
+    profilePic: "/avatar3.jpg"
   });
 
-  // 2. DATA SYNCHRONIZATION
   useEffect(() => {
-    // Load User Basic Info
     const savedName = localStorage.getItem('user_name');
     const savedPic = localStorage.getItem('user_pic');
     if (savedName) setUser(prev => ({ ...prev, name: savedName }));
     if (savedPic) setUser(prev => ({ ...prev, profilePic: savedPic }));
 
-    // Load History and Calculate Stats
     const savedBookings = JSON.parse(localStorage.getItem('quickgo_bookings')) || [];
-    setBookings(savedBookings);
+    setBookings(savedBookings.reverse()); // Show newest first
     
-    const spent = savedBookings.reduce((sum, b) => sum + (b.amount || 0), 0);
+    const spent = savedBookings.reduce((sum, b) => {
+        return (b.status === 'Confirmed' || b.paymentStatus === 'Paid') ? sum + (b.amount || 0) : sum;
+    }, 0);
     setTotalSpent(spent);
   }, []);
 
-  // 3. LOGIC HANDLERS
+  const handleInputChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -66,22 +67,22 @@ const Profile = () => {
     localStorage.setItem('user_name', user.name);
     setIsEditing(false);
     toast.success("Account Details Saved!");
-    setTimeout(() => window.location.reload(), 500);
   };
 
   const handleViewInvoice = (item) => {
     const invoicePacket = {
-        txnId: item.transactionId || "TXN-DEMO",
-        bookingId: item.bookingId,
+        txnId: item.transactionId || ("QG-TXN-" + Math.random().toString(36).substr(2, 9).toUpperCase()),
+        bookingId: item.bookingId || "BK-DEMO",
         customerName: user.name,
-        service: item.service,
+        service: item.service || item.serviceType,
         date: item.date,
+        time: item.time,
         address: item.address || user.location,
-        baseAmount: item.amount / 1.18,
-        tax: item.amount - (item.amount / 1.18),
+        baseAmount: item.amount,
+        tax: item.amount * 0.18,
         platform: 45,
-        total: item.amount,
-        method: "ONLINE"
+        total: item.amount + (item.amount * 0.18) + 45,
+        method: item.paymentMethod || "ONLINE"
     };
     localStorage.setItem('quickgo_last_invoice', JSON.stringify(invoicePacket));
     navigate('/invoice');
@@ -92,9 +93,8 @@ const Profile = () => {
     window.location.href = "/";
   };
 
-  // 4. STATS DATA
   const statsList = [
-    { title: "Total", count: bookings.length, icon: <FiActivity />, color: "var(--gold-accent)" },
+    { title: "Total Bookings", count: bookings.length, icon: <FiActivity />, color: "var(--gold-accent)" },
     { title: "Pending", count: bookings.filter(b => b.status === 'Pending').length, icon: <FiClock />, color: "#FFA500" },
     { title: "Completed", count: bookings.filter(b => b.status === 'Confirmed').length, icon: <FiCheckCircle />, color: "#28A745" },
     { title: "Cancelled", count: bookings.filter(b => b.status === 'Cancelled').length, icon: <FiXCircle />, color: "#DC3545" }
@@ -104,7 +104,6 @@ const Profile = () => {
     <div className="profile-page-wrapper">
       <input type="file" ref={fileInputRef} onChange={handlePhotoUpload} accept="image/*" style={{ display: 'none' }} />
 
-      {/* --- SECTION 1: LUXURY BANNER --- */}
       <section className="profile-hero-banner">
         <div className="container">
           <div className="banner-flex">
@@ -127,7 +126,7 @@ const Profile = () => {
       <div className="container my-5 pb-5">
         <div className="row g-4">
           
-          {/* --- SECTION 2: SIDEBAR (INFO & SETTINGS) --- */}
+          {/* SIDEBAR */}
           <div className="col-lg-4">
             <motion.div initial={{opacity:0, x:-20}} animate={{opacity:1, x:0}} className="profile-glass-card p-4 mb-4">
               <h5 className="gold-heading mb-4">Personal Information</h5>
@@ -152,73 +151,94 @@ const Profile = () => {
               {isEditing && <div className="mt-4 d-grid"><PrimaryButton text="Save Profile" onClick={handleSave} /></div>}
             </motion.div>
 
-            {/* BILLING STATS */}
             <div className="p-billing-box p-4 mb-4">
                 <h5 className="gold-heading mb-3">Billing Overview</h5>
                 <h3 className="text-white fw-bold">₹{totalSpent.toLocaleString()}</h3>
-                <span className="text-muted small">Total Investment in Home Care</span>
-                <button className="btn-link-gold d-block mt-3" onClick={()=>navigate('/payment-history')}>View Payment History</button>
+                <span className="text-muted small">Total Investment in Premium Services</span>
             </div>
 
             <div className="p-menu-list">
-                <div className="p-menu-item"><FiMapPin className="text-gold"/> Saved Addresses <FiChevronRight className="ms-auto"/></div>
-                <div className="p-menu-item"><FiMessageSquare className="text-gold"/> Help & Support <FiChevronRight className="ms-auto"/></div>
-                <div className="p-menu-item logout-red" onClick={handleLogout}><FiLogOut/> Logout Session <FiChevronRight className="ms-auto"/></div>
+                <div className="p-menu-item"><FiMapPin className="text-gold me-3"/> Saved Addresses <FiChevronRight className="ms-auto"/></div>
+                <div className="p-menu-item"><FiMessageSquare className="text-gold me-3"/> Help & Support <FiChevronRight className="ms-auto"/></div>
+                <div className="p-menu-item logout-red" onClick={handleLogout}><FiLogOut className="me-3"/> Logout Session <FiChevronRight className="ms-auto"/></div>
             </div>
           </div>
 
-          {/* --- SECTION 3: MAIN CONTENT (STATS & HISTORY) --- */}
+          {/* MAIN CONTENT */}
           <div className="col-lg-8">
-            
-            {/* BOOKING STATISTICS CARDS */}
             <div className="row g-3 mb-5">
               {statsList.map((s, i) => (
                 <div className="col-md-3 col-6" key={i}>
                   <motion.div whileHover={{y:-5}} className="p-stat-card-luxury">
-                    <div className="p-stat-icon-circ" style={{color: s.color}}>{s.icon}</div>
-                    <h4>{s.count}</h4>
+                    <div className="p-stat-icon-circ" style={{color: s.color, borderColor: s.color}}>{s.icon}</div>
+                    <h4 className="text-white">{s.count}</h4>
                     <p>{s.title}</p>
                   </motion.div>
                 </div>
               ))}
             </div>
 
-            {/* RECENT SERVICE HISTORY */}
-            <h5 className="gold-heading mb-4">Recent Service Activity</h5>
+            <h5 className="gold-heading mb-4 d-flex justify-content-between align-items-center">
+                Recent Service Activity
+            </h5>
+            
+            {/* UPDATED HISTORY MAPPING: Shows Service, Provider, and Payment Details perfectly */}
             {bookings.length > 0 ? (
                 bookings.map((item, idx) => (
                     <motion.div initial={{opacity:0, y:20}} animate={{opacity:1, y:0}} transition={{delay: idx*0.1}} className="p-history-card-detailed mb-4" key={idx}>
                         <div className="h-card-top-bar">
-                            <span className="h-ref-text">REF: {item.bookingId}</span>
-                            <span className={`h-status-pill ${item.status.toLowerCase()}`}>{item.status}</span>
+                            <span className="h-ref-text">REF: {item.bookingId || `BK-00${idx+1}`}</span>
+                            <span className={`h-status-pill ${item.status?.toLowerCase()}`}>{item.status}</span>
                         </div>
 
                         <div className="row mt-4 align-items-center">
+                            
+                            {/* Detailed Service & Payment Info */}
                             <div className="col-md-5 h-border-right">
-                                <h6 className="text-white fw-bold mb-1">{item.service}</h6>
-                                <p className="small text-muted mb-0"><FiCalendar className="me-1"/> {item.date} | <FiClock className="me-1"/> {item.time}</p>
+                                <h6 className="text-white fw-bold mb-1">{item.service || item.serviceType}</h6>
+                                <p className="small text-muted mb-0">
+                                    <FiCalendar className="me-1"/> {item.date} | <FiClock className="me-1"/> {item.time}
+                                </p>
                                 <div className="mt-2">
-                                    <span className="text-success small fw-bold"><FiCheckCircle className="me-1"/> Paid ₹{item.amount.toLocaleString()}</span>
+                                    {item.status === 'Confirmed' ? (
+                                        <span className="text-success small fw-bold">
+                                            <FiCheckCircle className="me-1"/> Paid ₹{(item.amount || 0).toLocaleString()} via {item.paymentMethod || 'Online'}
+                                        </span>
+                                    ) : (
+                                        <span className="text-warning small fw-bold">
+                                            <FiClock className="me-1"/> Payment Pending (₹{(item.amount || 0).toLocaleString()})
+                                        </span>
+                                    )}
                                 </div>
                             </div>
 
+                            {/* Detailed Provider Info */}
                             <div className="col-md-4 h-border-right">
                                 <label className="label-tiny-gold">Expert Assigned</label>
-                                <h6 className="text-white mb-0">Rahul Sharma (Verified)</h6>
-                                <p className="small text-muted mb-0"><FiPhone className="me-1"/> +91 99001 12233</p>
+                                <h6 className="text-white mb-0">
+                                    {item.providerName || "Rahul Sharma"} <span className="text-gold small fw-bold">(Verified)</span>
+                                </h6>
+                                <p className="small text-muted mb-0"><FiPhone className="me-1"/> {item.providerPhone || "+91 99001 12233"}</p>
                             </div>
 
+                            {/* Actions */}
                             <div className="col-md-3 text-center">
-                                <button className="btn-history-action w-100 mb-2" onClick={() => handleViewInvoice(item)}>
-                                    <FiDownload className="me-1"/> Receipt
-                                </button>
+                                {item.status === 'Confirmed' ? (
+                                    <button className="btn-history-action w-100 mb-2" onClick={() => handleViewInvoice(item)}>
+                                        <FiDownload className="me-1"/> Receipt
+                                    </button>
+                                ) : (
+                                    <button className="btn-history-action w-100 mb-2 border-warning text-warning" onClick={() => navigate('/services')}>
+                                        Pay Now
+                                    </button>
+                                )}
                                 <button className="btn-history-action w-100 gold-bg">Live Track</button>
                             </div>
                         </div>
                     </motion.div>
                 ))
             ) : (
-                <div className="empty-state-placeholder text-center p-5">
+                <div className="empty-state-placeholder text-center p-5" style={{background: 'rgba(0,0,0,0.4)', borderRadius: '20px', border: '1px dashed #333'}}>
                     <FiFileText size={50} className="text-muted mb-3" />
                     <h5 className="text-white">No Bookings Found</h5>
                     <p className="text-muted mb-4">Ready to experience premium home care?</p>
