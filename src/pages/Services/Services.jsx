@@ -24,7 +24,7 @@ const Services = () => {
             <div className="col-md-4">
               <div className="service-category-card">
                 <FiHome className="category-icon" />
-                <h3>Deep Cleaning</h3>
+                <h3>Home Cleaning</h3>
                 <p>Complete interior sanitization and luxury floor care.</p>
                 <PrimaryButton text="Explore" onClick={() => navigate('/services/home')} />
               </div>

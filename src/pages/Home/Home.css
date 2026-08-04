@@ -4,7 +4,7 @@
 
 /* Section Header */
 .section-title {
-  color: gold;
+  color: whitesmoke;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -22,7 +22,7 @@
 /* 1. Hero Section */
 .hero-section {
   height: 85vh;
-  background: url('/public/bg.jpg') no-repeat center center/cover;
+  background: url('/bg.jpg') no-repeat center center/cover;
   display: flex;
   align-items: center;
   position: relative;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Contact.css';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiSend, FiPlus, FiMinus, FiInstagram, FiTwitter, FiFacebook, FiClock } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiSend, FiPlus, FiMinus, FiInstagram, FiFacebook, FiClock } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 
@@ -14,7 +14,7 @@ const Contact = () => {
 
   const faqs = [
     { q: "How quickly can I book a service?", a: "With QuickGo, you can book a verified home expert in under 60 seconds through our streamlined booking flow." },
-    { q: "Are the experts background checked?", a: "Absolutely. Every cleaner and electrician on our platform undergoes a rigorous 3-step background and skills verification process." },
+    { q: "Are the experts background checked?", a: "Absolutely. Every professional on our platform undergoes a rigorous 3-step background and skills verification process." },
     { q: "What happens if I'm not satisfied?", a: "We offer a 7-day service warranty. If the job isn't done perfectly, we will send an expert back to fix it for free." }
   ];
 
@@ -72,7 +72,7 @@ const Contact = () => {
                 <FiMapPin className="info-icon" />
                 <div>
                   <h6>Registered Office</h6>
-                  <p>Level 5, Imperial Business Park, Surat, 395004</p>
+                  <p>Vivekanand College, Olpad Rd, near Jakat Naka, Jahangir Pura, Surat, Gujarat 395005</p>
                 </div>
               </div>
 
@@ -80,7 +80,7 @@ const Contact = () => {
                 <FiClock className="info-icon" />
                 <div>
                   <h6>Working Hours</h6>
-                  <p>Mon - Sat: 09:00 AM - 05:00 PM</p>
+                  <p>Mon - Sat: 09:00 AM - 08:00 PM</p>
                 </div>
               </div>
 
@@ -89,7 +89,6 @@ const Contact = () => {
               <h5 className="text-white mb-3">Join our Community</h5>
               <div className="contact-social-links">
                 <a href="#"><FiInstagram /></a>
-                <a href="#"><FiTwitter /></a>
                 <a href="#"><FiFacebook /></a>
               </div>
             </motion.div>
@@ -103,20 +102,20 @@ const Contact = () => {
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label className="form-label-gold">Your Name</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="contact-input" placeholder="e.g. your name" />
+                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="contact-input" placeholder="e.g. Smit Ghoghari" />
                   </div>
                   <div className="col-md-6 mb-3">
                     <label className="form-label-gold">Email Address</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="contact-input" placeholder="your@example.com" />
+                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="contact-input" placeholder="smit@example.com" />
                   </div>
                 </div>
                 <div className="mb-3">
                   <label className="form-label-gold">Subject</label>
-                  <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="contact-input" placeholder="e.g. Inquiry about services" />
+                  <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="contact-input" placeholder="How can we help?" />
                 </div>
                 <div className="mb-4">
                   <label className="form-label-gold">Detailed Message</label>
-                  <textarea name="message" value={formData.message} onChange={handleInputChange} className="contact-input" rows="5" placeholder="Tell us how we can assist you..."></textarea>
+                  <textarea name="message" value={formData.message} onChange={handleInputChange} className="contact-input" rows="5" placeholder="Write your message here..."></textarea>
                 </div>
                 <PrimaryButton text={<span><FiSend className="me-2"/> Send Message</span>} type="submit" />
               </form>

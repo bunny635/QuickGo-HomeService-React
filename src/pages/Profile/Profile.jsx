@@ -27,7 +27,7 @@ const Profile = () => {
     dob: "15 Aug 2002",
     gender: "Male",
     memberSince: "July 2023",
-    profilePic: "https://i.pravatar.cc/150?u=quickgo"
+    profilePic: "avatar3.jpg"
   });
 
   // 2. DATA SYNCHRONIZATION
