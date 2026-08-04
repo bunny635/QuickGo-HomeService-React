@@ -11,9 +11,9 @@ const About = () => {
   };
 
   const teamMembers = [
-    { name: "Vinay Dharaiya", role: "Founder & CEO", img: "/public/avatar3.jpg" },
-    { name: "Kavya Desai", role: "Operations Head", img: "/public/avatar1.jpg" },
-    { name: "Smit Ghoghari", role: "Service Director", img: "/public/avatar2.jpg" }
+    { name: "Vinay Dharaiya", role: "Founder & CEO", img: "/avatar3.jpg" },
+    { name: "Kavya Desai", role: "Operations Head", img: "/avatar1.jpg" },
+    { name: "Smit Ghoghari", role: "Service Director", img: "/avatar2.jpg" }
   ];
 
   return (
@@ -35,7 +35,7 @@ const About = () => {
           <div className="row align-items-center">
             <div className="col-md-6 mb-4 mb-md-0">
               <img 
-                src="/public/companymeet.jpg" 
+                src="/companymeet.jpg" 
                 alt="Our Story" 
                 className="img-fluid rounded-4 shadow-gold" 
               />
@@ -43,7 +43,7 @@ const About = () => {
             <div className="col-md-6 ps-md-5">
               <h2 className="section-title text-start">Our <span>Story</span></h2>
               <p className="text-muted mt-3">
-                Founded in 2023, QuickGo was born out of a simple observation: finding reliable, premium home services was too difficult. We set out to create a platform that values the customer's time above all else.
+                Founded in 2026, QuickGo was born out of a simple observation: finding reliable, premium home services was too difficult. We set out to create a platform that values the customer's time above all else.
               </p>
               <p className="text-muted">
                 Today, QuickGo stands as a symbol of luxury and trust, connecting thousands of households with background-verified experts who treat every home like their own.
@@ -130,7 +130,7 @@ const About = () => {
       {/* 6. Professional Team */}
       <section className="section-padding">
         <div className="container text-center">
-          <h2 className="section-title mb-5">The <span>Leadership Team</span></h2>
+          <h2 className="section-title mb-5">The Leadership Team </h2>
           <div className="row justify-content-center">
             {teamMembers.map((member, idx) => (
               <div className="col-md-3 mb-4" key={idx}>
