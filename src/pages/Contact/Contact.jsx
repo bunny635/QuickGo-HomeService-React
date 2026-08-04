@@ -35,6 +35,12 @@ const Contact = () => {
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
+  // 3. Social Media Click Handler
+  const handleSocialClick = (e) => {
+    e.preventDefault(); // Prevents the page from scrolling to top
+    toast.info("Our social media pages are coming soon!");
+  };
+
   return (
     <div className="contact-page-container py-5">
       <div className="container">
@@ -88,8 +94,9 @@ const Contact = () => {
               
               <h5 className="text-white mb-3">Join our Community</h5>
               <div className="contact-social-links">
-                <a href="#"><FiInstagram /></a>
-                <a href="#"><FiFacebook /></a>
+                {/* Replaced real links with the Coming Soon handler */}
+                <a href="#" onClick={handleSocialClick}><FiInstagram /></a>
+                <a href="#" onClick={handleSocialClick}><FiFacebook /></a>
               </div>
             </motion.div>
           </div>
