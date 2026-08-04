@@ -35,18 +35,19 @@ const Home = () => {
           </div>
           <div className="row">
             {[
-              { id: 1, title: "Home Cleaning", img: "/homecleaning.jpg", desc: "Eco-friendly deep cleaning for your interiors." },
-              { id: 2, title: "Garden Cleaning", img: "/GardenCleaning.jpg", desc: "Expert landscape and garden maintenance." },
-              { id: 3, title: "Electrician Service", img: "/elo.jpg", desc: "Certified professionals for safe repairs." }
+              { id: 1, title: "Home Cleaning", img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2070", desc: "Premium deep cleaning for high-end residential interiors." },
+              { id: 2, title: "Garden Care", img: "https://images.unsplash.com/photo-1416879598555-22008713bd78?q=80&w=2070", desc: "Professional landscaping and yard maintenance services." },
+              { id: 3, title: "Electrician", img: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=2070", desc: "Certified experts for all your electrical repairs." }
             ].map((service) => (
               <div className="col-md-4 mb-4" key={service.id}>
-                <div className="service-card-premium">
+                <div className="service-card">
                   <img src={service.img} alt={service.title} className="card-img" />
                   <div className="card-content">
                     <h4>{service.title}</h4>
                     <p>{service.desc}</p>
+                    {/* Funnel users to the ServiceDetails page to view providers */}
                     <button className="card-link" onClick={() => navigate(`/service/${service.id}`)}>
-                      Explore <FiArrowRight />
+                      View Providers <FiArrowRight className="ms-1"/>
                     </button>
                   </div>
                 </div>
@@ -67,8 +68,8 @@ const Home = () => {
               { icon: <FiHeadphones />, title: "24/7 Concierge", desc: "Support whenever you need assistance." }
             ].map((item, index) => (
               <div className="col-md-3" key={index}>
-                <div className="feature-icon-gold">{item.icon}</div>
-                <h5 className="mt-3">{item.title}</h5>
+                <div className="feature-icon">{item.icon}</div>
+                <h5 className="mt-3 text-white">{item.title}</h5>
                 <p className="text-muted small">{item.desc}</p>
               </div>
             ))}

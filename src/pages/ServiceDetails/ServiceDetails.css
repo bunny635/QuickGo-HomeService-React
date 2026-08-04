@@ -1,69 +1,36 @@
-.service-details-page-wrapper {
-  background-color: var(--primary-black);
-  min-height: 100vh;
-}
-
-.btn-back-link {
-  background: none; border: none;
-  color: var(--gold-accent);
-  font-weight: 700; font-size: 14px;
-  transition: 0.3s;
-}
+/* ==========================================
+   SERVICE DETAILS PAGE
+========================================== */
+.service-details-page-wrapper { background-color: var(--primary-black, #0F1115); min-height: 100vh; }
+.btn-back-link { background: none; border: none; color: var(--gold-accent, #D4AF37); font-weight: 700; font-size: 14px; transition: 0.3s; padding: 0; }
 .btn-back-link:hover { letter-spacing: 1px; }
 
-/* Image Styling */
-.main-image-frame {
-  position: relative;
-  width: 100%;
-  height: 450px;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #333;
-}
+/* Image & Content */
+.main-image-frame { position: relative; width: 100%; height: 450px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
 .details-main-img { width: 100%; height: 100%; object-fit: cover; }
-
-.rating-tag-float {
-  position: absolute; top: 20px; right: 20px;
-  background: rgba(0,0,0,0.8); color: var(--gold-accent);
-  padding: 5px 15px; border-radius: 50px;
-  font-weight: 800; backdrop-filter: blur(5px);
-}
+.rating-tag-float { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.8); color: var(--gold-accent); padding: 5px 15px; border-radius: 50px; font-weight: 800; backdrop-filter: blur(5px); border: 1px solid rgba(197, 160, 89, 0.3); }
 
 .service-title-text { color: white; font-weight: 800; font-size: 2.8rem; letter-spacing: -1px; }
 .service-full-desc { color: #ccc; font-size: 1.1rem; line-height: 1.8; }
-
 .gold-title { color: var(--gold-accent); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-
-.check-item-card {
-  background: var(--secondary-black);
-  padding: 15px; border-radius: 10px;
-  color: white; font-weight: 500;
-  border: 1px solid #222;
-}
+.check-item-card { background: rgba(22, 22, 22, 0.6); padding: 15px; border-radius: 10px; color: white; font-weight: 500; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+.divider-gold-thin { border-top: 1px solid rgba(197, 160, 89, 0.2); margin: 25px 0; opacity: 1; }
 
 /* Sidebar Card */
-.booking-side-card {
-  background: var(--secondary-black);
-  padding: 35px; border-radius: 25px;
-  border: 1px solid #333;
-  position: sticky; top: 120px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+.booking-side-card { 
+  background: linear-gradient(145deg, rgba(26, 29, 36, 0.9) 0%, rgba(15, 17, 21, 0.9) 100%);
+  backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+  padding: 35px; border-radius: 25px; 
+  border: 1px solid rgba(197, 160, 89, 0.2); 
+  position: sticky; top: 120px; 
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
 }
-
 .pricing-box h2 { color: var(--gold-accent); font-weight: 800; font-size: 2.5rem; margin-top: 5px; }
-.pricing-box h2 span { font-size: 1rem; color: #555; font-weight: 400; }
-
-.divider-gold-thin { border-top: 1px solid rgba(197, 160, 89, 0.2); margin: 25px 0; }
-
+.pricing-box h2 span { font-size: 1rem; color: #777; font-weight: 600; }
 .info-row-item { display: flex; gap: 15px; margin-bottom: 22px; }
 .row-icon { color: var(--gold-accent); font-size: 24px; margin-top: 5px; }
-.row-label { font-size: 10px; color: #555; text-transform: uppercase; font-weight: 800; margin: 0; }
+.row-label { font-size: 10px; color: #888; text-transform: uppercase; font-weight: 800; margin: 0; letter-spacing: 1px;}
 .row-val { color: white; font-weight: 600; margin: 0; font-size: 15px; }
+.help-box { text-align: center; font-size: 13px; color: #888; font-weight: 600; }
 
-.help-box { text-align: center; font-size: 13px; color: #666; font-weight: 600; }
-
-@media (max-width: 991px) {
-  .main-image-frame { height: 300px; }
-  .service-title-text { font-size: 2rem; }
-  .booking-side-card { position: static; margin-top: 30px; }
-}
+@media (max-width: 991px) { .main-image-frame { height: 300px; } .service-title-text { font-size: 2rem; } .booking-side-card { position: static; margin-top: 30px; } }
