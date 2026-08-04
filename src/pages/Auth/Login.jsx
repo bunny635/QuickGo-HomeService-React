@@ -18,34 +18,58 @@ const Login = () => {
     let isValid = false;
     let displayName = "";
 
-    // Presentation Credentials Logic
-    if (role === "user" && email === "user@quickgo.com" && password === "user123") {
-      isValid = true; displayName = "Smit Ghoghari";
-    } else if (role === "admin" && email === "admin@quickgo.com" && password === "admin123") {
-      isValid = true; displayName = "System Admin";
-    } else if (role === "provider" && email === "provider@quickgo.com" && password === "provider123") {
-      isValid = true; displayName = "Pro Service Team";
+    // 1. HARDCODED PRESENTATION ACCOUNTS (Not stored in JSON)
+    if (role === "admin" && email === "admin@quickgo.com" && password === "admin123") {
+      isValid = true; 
+      displayName = "System Admin";
+    } 
+    else if (role === "user" && email === "user@quickgo.com" && password === "user123") {
+      isValid = true; 
+      displayName = "Demo User";
+    } 
+    else if (role === "provider" && email === "provider@quickgo.com" && password === "provider123") {
+      isValid = true; 
+      displayName = "Demo Provider";
+    } 
+    // 2. STRICT REGISTRATION CHECK (Reads from JSON Database)
+    else {
+      // Fetch users from LocalStorage JSON
+      const existingUsers = JSON.parse(localStorage.getItem('quickgo_users')) || [];
+      
+      // Look for an exact match of Email, Password, and Role
+      const foundUser = existingUsers.find(u => u.email === email && u.password === password && u.role === role);
+      
+      if (foundUser) {
+        isValid = true;
+        displayName = foundUser.name;
+      }
     }
 
+    // 3. HANDLE SUCCESS / FAILURE & REDIRECTION
     if (isValid) {
       localStorage.setItem('user_name', displayName);
       localStorage.setItem('user_role', role);
       toast.success(`Welcome ${displayName}!`);
       
       setTimeout(() => {
-        window.location.href = role === "admin" ? "/admin-dashboard" : role === "provider" ? "/provider-dashboard" : "/";
+        if (role === "admin") {
+          window.location.href = "/admin-dashboard";
+        } else if (role === "provider") {
+          window.location.href = "/provider-dashboard";
+        } else {
+          window.location.href = "/";
+        }
       }, 2000);
     } else {
-      toast.error("Invalid credentials for the selected portal.");
+      // Strict failure message if they try to log in without registering
+      toast.error("Account not found or Invalid Credentials! Please register first.");
     }
   };
 
   return (
     <div className="auth-page-container">
-      {/* BACKGROUND LAYER */}
       <CinematicBackground />
 
-      {/* FORM LAYER */}
       <div className="auth-wrapper">
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }} 

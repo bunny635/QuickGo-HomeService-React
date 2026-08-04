@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import './CinematicBackground.css';
 
 // ==========================================
-// 1. MOUSE INTERACTION (Ripples & Ambient Light)
+// 1. MOUSE INTERACTION (Background Ripples)
 // ==========================================
 const MouseInteraction = () => {
   const [ripples, setRipples] = useState([]);
@@ -47,123 +48,102 @@ const MouseInteraction = () => {
 };
 
 // ==========================================
-// 2. PARTICLE ENGINE (Floating Gold Dust)
+// 2. INTERACTIVE RAINBOW BUBBLES
 // ==========================================
-const ParticleEngine = () => {
-  const particles = useMemo(() => {
-    return Array.from({ length: 120 }).map((_, i) => {
-      const size = Math.random() * 3 + 1;
-      const tx = (Math.random() - 0.5) * 100; 
-      const ty = (Math.random() - 0.5) * 100; 
-      const duration = Math.random() * 4 + 4; 
-      const delay = Math.random() * -20; 
-      
-      return {
-        id: i,
-        style: {
-          width: `${size}px`, height: `${size}px`,
-          '--tx': `${tx}vw`, '--ty': `${ty}vh`,
-          animationDuration: `${duration}s`, animationDelay: `${delay}s`
-        }
-      };
+const Bubble = ({ data }) => {
+  const [isBursting, setIsBursting] = useState(false);
+  const [scatterPos, setScatterPos] = useState({ x: 0, y: 0 });
+
+  const popBubble = () => {
+    if (isBursting) return;
+    setIsBursting(true);
+    
+    // Calculate a violent scatter direction (randomly flies away 15vw-30vw)
+    const dirX = Math.random() > 0.5 ? 1 : -1;
+    const dirY = Math.random() > 0.5 ? 1 : -1;
+    
+    setScatterPos({
+      x: dirX * (Math.random() * 15 + 15),
+      y: dirY * (Math.random() * 15 + 15)
     });
+
+    // Respawn the bubble seamlessly after it finishes exploding
+    setTimeout(() => {
+      setIsBursting(false);
+      setScatterPos({ x: 0, y: 0 });
+    }, 1500);
+  };
+
+  return (
+    <motion.div
+      className={`interactive-bubble ${isBursting ? 'rainbow-burst' : ''}`}
+      initial={{ x: `${data.x}vw`, y: `${data.y}vh` }}
+      animate={{
+        // During burst, add the scatter offset; otherwise, float peacefully
+        x: isBursting ? `${data.x + scatterPos.x}vw` : [`${data.x}vw`, `${data.x + 4}vw`, `${data.x - 4}vw`, `${data.x}vw`],
+        y: isBursting ? `${data.y + scatterPos.y}vh` : [`${data.y}vh`, `${data.y - 12}vh`, `${data.y + 6}vh`, `${data.y}vh`],
+        // Array triggers keyframes: [normal -> massive explosion -> vanish]
+        scale: isBursting ? [1, 2.8, 0] : [1, 1.05, 1],
+        opacity: isBursting ? [1, 1, 0] : 0.85,
+      }}
+      transition={
+        isBursting
+          ? { duration: 0.5, ease: "easeOut" } // Fast, punchy explosion
+          : { duration: data.duration, repeat: Infinity, ease: "easeInOut" } // Slow floating
+      }
+      onMouseEnter={popBubble}
+      onTouchStart={popBubble} // Added for mobile support
+      style={{
+        width: `${data.size}px`,
+        height: `${data.size}px`,
+      }}
+    />
+  );
+};
+
+// PORTAL LAYER: Escapes the z-index trap to float IN FRONT of the login form
+const InteractiveBubblesLayer = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
-  return (
-    <div className="particle-engine-container">
-      {particles.map(p => (
-        <div key={p.id} className="golden-particle cinematic-particle-anim" style={p.style} />
+  const bubbles = useMemo(() => {
+    return Array.from({ length: 45 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 95, 
+      y: Math.random() * 95, 
+      size: Math.random() * 60 + 30, // Realistic variable sizes
+      duration: Math.random() * 18 + 12, 
+    }));
+  }, []);
+
+  if (!mounted) return null;
+
+  // Render bubbles into document.body so they catch mouse hovers perfectly
+  return createPortal(
+    <div className="interactive-bubbles-container">
+      {bubbles.map((b) => (
+        <Bubble key={b.id} data={b} />
       ))}
-    </div>
+    </div>,
+    document.body
   );
 };
 
 // ==========================================
-// 3. EAGLE ANIMATION (Logo Formation & Flight)
+// 3. BACKGROUND EFFECTS
 // ==========================================
-const EagleAnimation = () => {
-  return (
-    <div className="eagle-animation-wrapper">
-      {/* Update src to your actual uploaded eagle logo path (e.g., "/weblogo.jpg") */}
-      <img 
-        src="./weblogo.jpg" 
-        alt="QuickGo Eagle" 
-        className="premium-eagle-logo"
-        onError={(e) => {
-          e.target.style.display = 'none';
-          e.target.nextSibling.style.display = 'block';
-        }}
-      />
-      {/* Fallback SVG if image path is incorrect during dev */}
-      <svg className="premium-eagle-fallback" viewBox="0 0 100 100" style={{ display: 'none' }}>
-        <path fill="#D4AF37" d="M50 15 L75 40 Q85 30 95 20 Q80 50 60 60 L50 85 L40 60 Q20 50 5 20 Q15 30 25 40 Z" />
-      </svg>
-      
-      <div className="eagle-particle-trail">
-  {Array.from({ length: 15 }).map((_, i) => {
-    // Generate the random coordinates here in JavaScript
-    const randomX = (Math.random() - 0.5) * 40; // values between -20 and 20
-    const randomY = (Math.random() - 0.5) * 40;
-    
-    return (
-      <div 
-        key={i} 
-        className="trail-spark" 
-        style={{ 
-          '--delay': `${i * 0.1}s`,
-          '--tx': `${randomX}px`,
-          '--ty': `${randomY}px`
-        }} 
-      />
-    );
-  })}
-  </div>
-    </div>
-  );
-};
-
-// ==========================================
-// 4. LOGO REVEAL (Text Reveal)
-// ==========================================
-const LogoReveal = () => (
-  <div className="logo-reveal-container">
-    <h1 className="luxury-brand-title">Quick<span className="gold-highlight">Go</span></h1>
-    <p className="luxury-brand-tagline">Your Time, Our Priority.</p>
+const AmbientBackground = () => (
+  <div className="ambient-background-layer">
+    <div className="bg-glow-orb orb-1" />
+    <div className="bg-glow-orb orb-2" />
   </div>
 );
 
 // ==========================================
-// 5. FEATHER ANIMATION (Floating Feathers)
-// ==========================================
-const FeatherAnimation = () => {
-  const feathers = useMemo(() => {
-    return Array.from({ length: 6 }).map((_, i) => ({
-      id: i,
-      left: `${Math.random() * 90 + 5}%`,
-      delay: `${Math.random() * 15}s`,
-      duration: `${Math.random() * 10 + 15}s`,
-      scale: Math.random() * 0.5 + 0.5
-    }));
-  }, []);
-
-  return (
-    <div className="feather-container">
-      {feathers.map(f => (
-        <div 
-          key={f.id} className="luxury-feather"
-          style={{ left: f.left, animationDelay: f.delay, animationDuration: f.duration, transform: `scale(${f.scale})` }}
-        >
-          <svg viewBox="0 0 24 24" width="30" height="30">
-            <path fill="rgba(212, 175, 55, 0.15)" d="M20.2,4.8c-1.3-1.3-3.1-2.1-5.1-2.1c-4.4,0-8.3,3.8-9.8,9.1c-0.2,0.8-0.8,1.4-1.6,1.6 c-0.6,0.2-1.3,0.1-1.8-0.3l-0.6-0.5c-0.4-0.4-0.6-1.1-0.3-1.6c0.8-1.5,1.2-3.1,1.2-4.9c0-1-0.2-1.9-0.4-2.8 C1.2,3.8,0.7,4.5,0.4,5.3c-1.1,3.2-0.5,6.9,1.7,9.6L1.2,16c-0.4,0.4-0.4,1,0,1.4s1,0.4,1.4,0l1.1-1.1c2.7,2.2,6.4,2.8,9.6,1.7 c0.8-0.3,1.5-0.8,2-1.4c-0.9-0.2-1.8-0.4-2.8-0.4c-1.8,0-3.4,0.4-4.9,1.2c0.5,0.3,1.2,0.1,1.6-0.3l-0.5-0.6 c-0.4-0.5-0.5-1.2-0.3-1.8C10.5,9.4,14.3,5.5,18.7,5.5C20.8,5.5,22.6,6.3,23.9,7.6C23.6,6.5,23,5.5,20.2,4.8z" />
-          </svg>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// ==========================================
-// MAIN EXPORT (Master Container)
+// MAIN EXPORT
 // ==========================================
 const CinematicBackground = () => {
   return (
@@ -174,13 +154,9 @@ const CinematicBackground = () => {
       transition={{ duration: 1.5, ease: "easeInOut" }}
     >
       <div className="cinematic-gradient-overlay" />
+      <AmbientBackground />
       <MouseInteraction />
-      <ParticleEngine />
-      <div className="cinematic-sequence-container">
-        <EagleAnimation />
-        <LogoReveal />
-      </div>
-      <FeatherAnimation />
+      <InteractiveBubblesLayer />
     </motion.div>
   );
 };

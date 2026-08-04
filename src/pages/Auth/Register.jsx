@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import './Auth.css';
 import CinematicBackground from '../../components/CinematicBackground/CinematicBackground'; 
 import { motion } from 'framer-motion';
-import { FiMail, FiLock, FiUser, FiPhone, FiCheckCircle, FiUsers, FiArrowRight } from 'react-icons/fi';
+import { FiMail, FiLock, FiUser, FiCheckCircle, FiUsers, FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 
 const Register = () => {
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("user"); // Admin removed from default state
   const [formData, setFormData] = useState({
     name: "", email: "", password: "", confirmPassword: "", agreeTerms: false
   });
@@ -27,21 +27,42 @@ const Register = () => {
       return toast.error("Please agree to the Terms & Conditions");
     }
 
+    // 1. Fetch existing users from local JSON Database
+    const existingUsers = JSON.parse(localStorage.getItem('quickgo_users')) || [];
+
+    // 2. Check if email already exists
+    const userExists = existingUsers.find(u => u.email === formData.email);
+    if (userExists) {
+      return toast.error("Email is already registered! Please login.");
+    }
+
+    // 3. Create new user packet
+    const newUser = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password, // In a real app, this would be hashed
+      role: role
+    };
+
+    // 4. Save to Database
+    existingUsers.push(newUser);
+    localStorage.setItem('quickgo_users', JSON.stringify(existingUsers));
+
+    // 5. Set active session
     localStorage.setItem('user_name', formData.name);
     localStorage.setItem('user_role', role);
     toast.success(`Account created for ${formData.name}!`);
 
+    // 6. Redirect to appropriate panel
     setTimeout(() => {
-      window.location.href = role === "admin" ? "/admin-dashboard" : role === "provider" ? "/provider-dashboard" : "/";
+      window.location.href = role === "provider" ? "/provider-dashboard" : "/";
     }, 2000);
   };
 
   return (
     <div className="auth-page-container">
-      {/* BACKGROUND LAYER */}
-     <CinematicBackground />
+      <CinematicBackground />
 
-      {/* FORM LAYER */}
       <div className="auth-wrapper">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -58,10 +79,10 @@ const Register = () => {
           <form onSubmit={handleRegister}>
             <div className="input-group-custom mb-3">
               <FiUsers className="input-icon" />
+              {/* ADMIN OPTION COMPLETELY REMOVED FROM REGISTRATION */}
               <select className="auth-input" value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="user">Register as Customer</option>
                 <option value="provider">Register as Service Provider</option>
-                <option value="admin">Register as Administrator</option>
               </select>
             </div>
 
