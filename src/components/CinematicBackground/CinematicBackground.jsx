@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import './CinematicBackground.css';
 
@@ -23,9 +22,7 @@ const MouseInteraction = () => {
       const newRipple = { id: Date.now(), x: e.clientX, y: e.clientY };
       setRipples(prev => [...prev, newRipple]);
       
-      setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== newRipple.id));
-      }, 1000);
+      setTimeout(() => setRipples(prev => prev.filter(r => r.id !== newRipple.id)), 1000);
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -48,9 +45,42 @@ const MouseInteraction = () => {
 };
 
 // ==========================================
-// 2. INTERACTIVE RAINBOW BUBBLES
+// 2. RANDOM GOLDEN DOTS ENGINE
 // ==========================================
-const Bubble = ({ data }) => {
+const GoldenDotsLayer = () => {
+  const dots = useMemo(() => {
+    return Array.from({ length: 60 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100, 
+      y: Math.random() * 100, 
+      size: Math.random() * 3 + 1, // Sizes between 1px and 4px
+      delay: Math.random() * 5, 
+      duration: Math.random() * 4 + 2, 
+    }));
+  }, []);
+
+  return (
+    <div className="golden-dots-container">
+      {dots.map((dot) => (
+        <div
+          key={dot.id}
+          className="random-golden-dot"
+          style={{
+            left: `${dot.x}vw`, top: `${dot.y}vh`,
+            width: `${dot.size}px`, height: `${dot.size}px`,
+            animationDelay: `${dot.delay}s`, animationDuration: `${dot.duration}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// ==========================================
+// 3. BULLETPROOF INTERACTIVE WATERCOLOR BUBBLES
+// ==========================================
+const Bubble = ({ data, mousePos }) => {
+  const bubbleRef = useRef(null);
   const [isBursting, setIsBursting] = useState(false);
   const [scatterPos, setScatterPos] = useState({ x: 0, y: 0 });
 
@@ -58,41 +88,63 @@ const Bubble = ({ data }) => {
     if (isBursting) return;
     setIsBursting(true);
     
-    // Calculate a violent scatter direction (randomly flies away 15vw-30vw)
+    // Calculate a violent, random watercolor splash direction
     const dirX = Math.random() > 0.5 ? 1 : -1;
     const dirY = Math.random() > 0.5 ? 1 : -1;
     
     setScatterPos({
-      x: dirX * (Math.random() * 15 + 15),
-      y: dirY * (Math.random() * 15 + 15)
+      x: dirX * (Math.random() * 12 + 15),
+      y: dirY * (Math.random() * 12 + 15)
     });
 
-    // Respawn the bubble seamlessly after it finishes exploding
+    // Respawn the bubble seamlessly after the watercolor dissolves
     setTimeout(() => {
       setIsBursting(false);
       setScatterPos({ x: 0, y: 0 });
-    }, 1500);
+    }, 1200);
   };
+
+  // MATHEMATICAL COLLISION DETECTION
+  // This completely ignores CSS layering. If your mouse crosses the bubble's screen coordinates, it pops!
+  useEffect(() => {
+    if (isBursting || !bubbleRef.current) return;
+    const rect = bubbleRef.current.getBoundingClientRect();
+    
+    // Adding a 15px invisible hitbox buffer around the bubble to make it easier to pop
+    if (
+      mousePos.x >= rect.left - 15 && mousePos.x <= rect.right + 15 &&
+      mousePos.y >= rect.top - 15 && mousePos.y <= rect.bottom + 15
+    ) {
+      popBubble();
+    }
+  }, [mousePos, isBursting]);
 
   return (
     <motion.div
-      className={`interactive-bubble ${isBursting ? 'rainbow-burst' : ''}`}
+      ref={bubbleRef}
+      className={`interactive-bubble ${isBursting ? 'watercolor-burst' : ''}`}
       initial={{ x: `${data.x}vw`, y: `${data.y}vh` }}
-      animate={{
-        // During burst, add the scatter offset; otherwise, float peacefully
-        x: isBursting ? `${data.x + scatterPos.x}vw` : [`${data.x}vw`, `${data.x + 4}vw`, `${data.x - 4}vw`, `${data.x}vw`],
-        y: isBursting ? `${data.y + scatterPos.y}vh` : [`${data.y}vh`, `${data.y - 12}vh`, `${data.y + 6}vh`, `${data.y}vh`],
-        // Array triggers keyframes: [normal -> massive explosion -> vanish]
-        scale: isBursting ? [1, 2.8, 0] : [1, 1.05, 1],
-        opacity: isBursting ? [1, 1, 0] : 0.85,
-      }}
-      transition={
+      animate={
         isBursting
-          ? { duration: 0.5, ease: "easeOut" } // Fast, punchy explosion
-          : { duration: data.duration, repeat: Infinity, ease: "easeInOut" } // Slow floating
+          ? { 
+              x: `${data.x + scatterPos.x}vw`,
+              y: `${data.y + scatterPos.y}vh`,
+              scale: [1, 3.5, 4.5], // Massively expands like paint in water
+              opacity: [0.9, 0.8, 0] // Fades out into the background
+            }
+          : { 
+              x: [`${data.x}vw`, `${data.x + 4}vw`, `${data.x - 4}vw`, `${data.x}vw`],
+              y: [`${data.y}vh`, `${data.y - 12}vh`, `${data.y + 6}vh`, `${data.y}vh`],
+              scale: [1, 1.05, 1],
+              opacity: 0.75
+            }
       }
-      onMouseEnter={popBubble}
-      onTouchStart={popBubble} // Added for mobile support
+      transition={{
+        duration: isBursting ? 0.9 : data.duration, // Fast burst vs Slow peaceful float
+        ease: isBursting ? "easeOut" : "easeInOut",
+        repeat: isBursting ? 0 : Infinity // Stops repeating while bursting
+      }}
+      onClick={popBubble} // Fallback for clicking
       style={{
         width: `${data.size}px`,
         height: `${data.size}px`,
@@ -101,51 +153,46 @@ const Bubble = ({ data }) => {
   );
 };
 
-// PORTAL LAYER: Escapes the z-index trap to float IN FRONT of the login form
-const InteractiveBubblesLayer = () => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+const InteractiveBubblesLayer = ({ mousePos }) => {
   const bubbles = useMemo(() => {
-    return Array.from({ length: 45 }).map((_, i) => ({
+    return Array.from({ length: 30 }).map((_, i) => ({
       id: i,
       x: Math.random() * 95, 
       y: Math.random() * 95, 
-      size: Math.random() * 60 + 30, // Realistic variable sizes
+      size: Math.random() * 50 + 35, // Random sizes between 35px and 85px
       duration: Math.random() * 18 + 12, 
     }));
   }, []);
 
-  if (!mounted) return null;
-
-  // Render bubbles into document.body so they catch mouse hovers perfectly
-  return createPortal(
+  return (
     <div className="interactive-bubbles-container">
       {bubbles.map((b) => (
-        <Bubble key={b.id} data={b} />
+        <Bubble key={b.id} data={b} mousePos={mousePos} />
       ))}
-    </div>,
-    document.body
+    </div>
   );
 };
-
-// ==========================================
-// 3. BACKGROUND EFFECTS
-// ==========================================
-const AmbientBackground = () => (
-  <div className="ambient-background-layer">
-    <div className="bg-glow-orb orb-1" />
-    <div className="bg-glow-orb orb-2" />
-  </div>
-);
 
 // ==========================================
 // MAIN EXPORT
 // ==========================================
 const CinematicBackground = () => {
+  // Global Mouse Tracker State
+  const [mousePos, setMousePos] = useState({ x: -9999, y: -9999 });
+
+  useEffect(() => {
+    let rafId;
+    const handleGlobalMove = (e) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        setMousePos({ x: e.clientX, y: e.clientY });
+      });
+    };
+    
+    window.addEventListener('mousemove', handleGlobalMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleGlobalMove);
+  }, []);
+
   return (
     <motion.div 
       className="cinematic-background-root"
@@ -153,10 +200,10 @@ const CinematicBackground = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
     >
-      <div className="cinematic-gradient-overlay" />
-      <AmbientBackground />
+      <div className="pure-black-overlay" />
       <MouseInteraction />
-      <InteractiveBubblesLayer />
+      <GoldenDotsLayer />
+      <InteractiveBubblesLayer mousePos={mousePos} />
     </motion.div>
   );
 };
