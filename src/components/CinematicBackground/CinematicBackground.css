@@ -1,117 +1,39 @@
 /* ==========================================
-   1. ROOT & OVERLAY (PURE BLACK)
+   STATIC IMAGE BACKGROUND
 ========================================== */
+
 .cinematic-background-root {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background-color: #000000; /* Pure Deep Black */
-  z-index: 0; /* Placed perfectly at the back */
+  background-color: #000000;
+  z-index: -1; 
   overflow: hidden;
-  pointer-events: none; /* Crucial: Allows you to click the login form freely */
+  pointer-events: none; /* Allows mouse interactions to pass through to the form */
 }
 
-.pure-black-overlay {
+/* The actual image */
+.static-eagle-bg {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 50% 50%, rgba(15, 15, 15, 0.4) 0%, #000000 100%);
-  z-index: 0;
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  
+  /* Make sure this filename perfectly matches the image in your folder */
+  background-image: url('eg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* Slightly dims the image so it doesn't overpower the login card */
+  opacity: 0.5; 
+  z-index: 1;
 }
 
-/* ==========================================
-   2. MOUSE INTERACTION & RIPPLES
-========================================== */
-.mouse-interaction-layer {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4;
-}
-
-.ambient-mouse-glow {
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle 25vmax at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(212, 175, 55, 0.05) 0%, transparent 100%);
-  transition: background 0.1s ease;
-}
-
-.golden-ripple {
-  position: absolute; width: 2px; height: 2px;
-  background: rgba(212, 175, 55, 0.8);
-  border-radius: 50%; transform: translate(-50%, -50%);
-  animation: cinematic-ripple 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-}
-
-@keyframes cinematic-ripple {
-  0% { width: 0; height: 0; opacity: 1; border: 2px solid #D4AF37; }
-  100% { width: 350px; height: 350px; opacity: 0; border: 1px solid #FFD86B; }
-}
-
-/* ==========================================
-   3. RANDOM GOLDEN DOTS ENGINE
-========================================== */
-.golden-dots-container {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
-}
-
-.random-golden-dot {
+/* Soft dark vignette around the edges for a premium cinematic feel */
+.cinematic-dark-overlay {
   position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, #FFD700 0%, #FFA500 50%, transparent 100%);
-  box-shadow: 0 0 8px #FFD700;
-  opacity: 0; 
-  animation: twinkleRandom infinite ease-in-out;
-}
-
-@keyframes twinkleRandom {
-  0% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 0.9; transform: scale(1.3); }
-  100% { opacity: 0; transform: scale(0.5); }
-}
-
-/* ==========================================
-   4. INTERACTIVE BUBBLES
-========================================== */
-.interactive-bubbles-container {
-  position: absolute; 
-  top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 2; 
-}
-
-/* Base Soap Bubble Glassmorphism */
-.interactive-bubble {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%, 
-    rgba(255, 255, 255, 0.25) 0%, 
-    rgba(255, 255, 255, 0.05) 30%, 
-    transparent 60%, 
-    rgba(0, 255, 255, 0.12) 85%, 
-    rgba(255, 0, 255, 0.15) 100%
-  );
-  box-shadow: 
-    inset 0 0 10px rgba(255, 255, 255, 0.5),
-    inset 8px 0 20px rgba(255, 0, 255, 0.2),
-    inset -8px 0 20px rgba(0, 255, 255, 0.2),
-    0 4px 15px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px); 
-  -webkit-backdrop-filter: blur(2px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  will-change: transform, opacity, background, filter;
-  transition: all 0.4s ease-out; 
-}
-
-/* THE WATERCOLOR EXPLOSION (Triggered smoothly by React Coordinate Math) */
-.interactive-bubble.watercolor-burst {
-  background: radial-gradient(circle at 45% 45%, 
-    rgba(255, 105, 180, 0.95) 0%,   /* Hot Pink */
-    rgba(0, 255, 255, 0.85) 35%,    /* Vibrant Cyan */
-    rgba(255, 253, 150, 0.75) 65%,  /* Splash Yellow */
-    rgba(147, 112, 219, 0.6) 100%   /* Soft Plum/Purple edge */
-  ) !important;
-  box-shadow: 
-    0 0 60px rgba(0, 255, 255, 0.7), 
-    inset 0 0 40px rgba(255, 105, 180, 0.7) !important;
-  border: 0px solid transparent !important;
-  backdrop-filter: none !important;
-  /* Massively increases blur and saturation so it looks exactly like ink dissolving in water */
-  filter: blur(12px) saturate(2.5) brightness(1.2) !important; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.95) 100%);
+  z-index: 2;
 }

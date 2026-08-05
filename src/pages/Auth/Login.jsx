@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Auth.css';
 import CinematicBackground from '../../components/CinematicBackground/CinematicBackground'; 
 import { motion } from 'framer-motion';
-import { FiMail, FiLock, FiArrowRight, FiUsers } from 'react-icons/fi';
+import { FiMail, FiLock, FiArrowRight, FiUsers, FiEye, FiEyeOff } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
@@ -11,6 +11,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
+
+  // Interaction States for the Invisible Guardian Eagles
+  const [isPwdFocused, setIsPwdFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -33,10 +37,7 @@ const Login = () => {
     } 
     // 2. STRICT REGISTRATION CHECK (Reads from JSON Database)
     else {
-      // Fetch users from LocalStorage JSON
       const existingUsers = JSON.parse(localStorage.getItem('quickgo_users')) || [];
-      
-      // Look for an exact match of Email, Password, and Role
       const foundUser = existingUsers.find(u => u.email === email && u.password === password && u.role === role);
       
       if (foundUser) {
@@ -45,7 +46,6 @@ const Login = () => {
       }
     }
 
-    // 3. HANDLE SUCCESS / FAILURE & REDIRECTION
     if (isValid) {
       localStorage.setItem('user_name', displayName);
       localStorage.setItem('user_role', role);
@@ -61,14 +61,17 @@ const Login = () => {
         }
       }, 2000);
     } else {
-      // Strict failure message if they try to log in without registering
       toast.error("Account not found or Invalid Credentials! Please register first.");
     }
   };
 
   return (
     <div className="auth-page-container">
-      <CinematicBackground />
+      {/* Passing states to our hidden eagle guardians */}
+      <CinematicBackground 
+        passwordFocused={isPwdFocused} 
+        passwordVisible={showPassword} 
+      />
 
       <div className="auth-wrapper">
         <motion.div 
@@ -95,12 +98,39 @@ const Login = () => {
 
             <div className="input-group-custom mb-3">
               <FiMail className="input-icon" />
-              <input type="email" placeholder="Email ID" className="auth-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <input 
+                type="email" 
+                placeholder="Email ID" 
+                className="auth-input" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+              />
             </div>
 
-            <div className="input-group-custom mb-4">
+            <div className="input-group-custom mb-4" style={{ position: 'relative' }}>
               <FiLock className="input-icon" />
-              <input type="password" placeholder="Password" className="auth-input" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <input 
+                type={showPassword ? "text" : "password"} 
+                placeholder="Password" 
+                className="auth-input" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                onFocus={() => setIsPwdFocused(true)}
+                onBlur={() => setIsPwdFocused(false)}
+                required 
+                style={{ paddingRight: '45px' }}
+              />
+              <button 
+                type="button" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)',
+                  background: 'none', border: 'none', color: '#D4AF37', fontSize: '18px', cursor: 'pointer', zIndex: 10
+                }}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
             </div>
 
             <PrimaryButton text={<span>Sign In <FiArrowRight className="ms-2"/></span>} type="submit" />

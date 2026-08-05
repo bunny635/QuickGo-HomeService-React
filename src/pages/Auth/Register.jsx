@@ -2,16 +2,25 @@ import React, { useState } from 'react';
 import './Auth.css';
 import CinematicBackground from '../../components/CinematicBackground/CinematicBackground'; 
 import { motion } from 'framer-motion';
-import { FiMail, FiLock, FiUser, FiCheckCircle, FiUsers, FiArrowRight } from 'react-icons/fi';
+import { FiMail, FiLock, FiUser, FiCheckCircle, FiUsers, FiArrowRight, FiEye, FiEyeOff } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 
 const Register = () => {
-  const [role, setRole] = useState("user"); // Admin removed from default state
+  const [role, setRole] = useState("user");
   const [formData, setFormData] = useState({
     name: "", email: "", password: "", confirmPassword: "", agreeTerms: false
   });
+
+  // Interaction States for the Invisible Eagle Background
+  const [pwdFocused, setPwdFocused] = useState(false);
+  const [confirmPwdFocused, setConfirmPwdFocused] = useState(false);
+  const [showPwd, setShowPwd] = useState(false);
+  const [showConfirmPwd, setShowConfirmPwd] = useState(false);
+
+  const isAnyPasswordFocused = pwdFocused || confirmPwdFocused;
+  const isAnyPasswordVisible = (pwdFocused && showPwd) || (confirmPwdFocused && showConfirmPwd);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,33 +36,22 @@ const Register = () => {
       return toast.error("Please agree to the Terms & Conditions");
     }
 
-    // 1. Fetch existing users from local JSON Database
     const existingUsers = JSON.parse(localStorage.getItem('quickgo_users')) || [];
-
-    // 2. Check if email already exists
     const userExists = existingUsers.find(u => u.email === formData.email);
     if (userExists) {
       return toast.error("Email is already registered! Please login.");
     }
 
-    // 3. Create new user packet
     const newUser = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password, // In a real app, this would be hashed
-      role: role
+      name: formData.name, email: formData.email, password: formData.password, role: role
     };
 
-    // 4. Save to Database
     existingUsers.push(newUser);
     localStorage.setItem('quickgo_users', JSON.stringify(existingUsers));
-
-    // 5. Set active session
     localStorage.setItem('user_name', formData.name);
     localStorage.setItem('user_role', role);
     toast.success(`Account created for ${formData.name}!`);
 
-    // 6. Redirect to appropriate panel
     setTimeout(() => {
       window.location.href = role === "provider" ? "/provider-dashboard" : "/";
     }, 2000);
@@ -61,13 +59,14 @@ const Register = () => {
 
   return (
     <div className="auth-page-container">
-      <CinematicBackground />
+      <CinematicBackground 
+        passwordFocused={isAnyPasswordFocused} 
+        passwordVisible={isAnyPasswordVisible} 
+      />
 
       <div className="auth-wrapper">
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
           className="glass-card register-card"
         >
           <div className="text-center mb-4">
@@ -79,7 +78,6 @@ const Register = () => {
           <form onSubmit={handleRegister}>
             <div className="input-group-custom mb-3">
               <FiUsers className="input-icon" />
-              {/* ADMIN OPTION COMPLETELY REMOVED FROM REGISTRATION */}
               <select className="auth-input" value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="user">Register as Customer</option>
                 <option value="provider">Register as Service Provider</option>
@@ -96,14 +94,38 @@ const Register = () => {
               <input type="email" name="email" placeholder="Email ID" className="auth-input" onChange={handleChange} required />
             </div>
 
-            <div className="input-group-custom mb-3">
+            <div className="input-group-custom mb-3" style={{ position: 'relative' }}>
               <FiLock className="input-icon" />
-              <input type="password" name="password" placeholder="Create Password" className="auth-input" onChange={handleChange} required />
+              <input 
+                type={showPwd ? "text" : "password"} 
+                name="password" placeholder="Create Password" 
+                className="auth-input" onChange={handleChange} required 
+                onFocus={() => setPwdFocused(true)} onBlur={() => setPwdFocused(false)}
+                style={{ paddingRight: '45px' }}
+              />
+              <button 
+                type="button" onClick={() => setShowPwd(!showPwd)}
+                style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#D4AF37', fontSize: '18px', cursor: 'pointer', zIndex: 10 }}
+              >
+                {showPwd ? <FiEyeOff /> : <FiEye />}
+              </button>
             </div>
 
-            <div className="input-group-custom mb-3">
+            <div className="input-group-custom mb-3" style={{ position: 'relative' }}>
               <FiCheckCircle className="input-icon" />
-              <input type="password" name="confirmPassword" placeholder="Confirm Password" className="auth-input" onChange={handleChange} required />
+              <input 
+                type={showConfirmPwd ? "text" : "password"} 
+                name="confirmPassword" placeholder="Confirm Password" 
+                className="auth-input" onChange={handleChange} required 
+                onFocus={() => setConfirmPwdFocused(true)} onBlur={() => setConfirmPwdFocused(false)}
+                style={{ paddingRight: '45px' }}
+              />
+              <button 
+                type="button" onClick={() => setShowConfirmPwd(!showConfirmPwd)}
+                style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#D4AF37', fontSize: '18px', cursor: 'pointer', zIndex: 10 }}
+              >
+                {showConfirmPwd ? <FiEyeOff /> : <FiEye />}
+              </button>
             </div>
 
             <div className="form-check mb-4 px-1 text-start">

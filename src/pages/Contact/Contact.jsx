@@ -78,7 +78,7 @@ const Contact = () => {
                 <FiMapPin className="info-icon" />
                 <div>
                   <h6>Registered Office</h6>
-                  <p>Vivekanand College, Olpad Rd, near Jakat Naka, Jahangir Pura, Surat, Gujarat 395005</p>
+                  <p>Vivekanand College, Olpad Rd, Jahangir Pura, Surat, Gujarat 395005</p>
                 </div>
               </div>
 
